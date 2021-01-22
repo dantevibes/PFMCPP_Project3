@@ -110,17 +110,17 @@ Thing 4) Airplane
  */
 
 /*
-Thing 10)
+Thing 10) Hand
 5 properties:
-    1)
-    2)
-    3)
-    4)
-    5)
+    1) Finger
+    2) Palm
+    3) Knuckle
+    4) Back
+    5) Wrist
 3 things it can do:
-    1)
-    2)
-    3)
+    1) Grab object
+    2) Flatten
+    3) Give signal
  */
 
 /*
