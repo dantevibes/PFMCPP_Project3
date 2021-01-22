@@ -54,59 +54,59 @@ Thing: Car Wash
  */
 
 /*
-Thing 1)
+Thing 1) Octopus
 5 properties:
-    1)
-    2)
-    3)
-    4)
-    5)
+    1) number of arms
+    2) amount of ink
+    3) color
+    4) shape
+    5) size
 3 things it can do:
-    1)
-    2)
-    3)
+    1) catch a fish
+    2) change color
+    3) squirt ink
  */
 
 /*
-Thing 2)
+Thing 2) Band
 5 properties:
-    1)
-    2)
-    3)
-    4)
-    5)
+    1) Number of people in band
+    2) Type of band
+    3) Number of albums sold
+    4) Budget
+    5) Number of songs written
 3 things it can do:
-    1)
-    2)
-    3)
+    1) Play for an audience
+    2) Record a song
+    3) Post on social media
  */
 
 /*
-Thing 3)
+Thing 3) Espresso Machine
 5 properties:
-    1)
-    2)
-    3)
-    4)
-    5)
+    1) Amount of water in tank
+    2) Type of coffee
+    3) water temperature
+    4) tablespoons of coffee grounds
+    5) steamer pressure
 3 things it can do:
-    1)
-    2)
-    3)
+    1) Heat water
+    2) Pour water through coffee
+    3) Make sound when done
  */
 
 /*
-Thing 4)
+Thing 4) Airplane
 5 properties:
-    1)
-    2)
-    3)
-    4)
-    5)
+    1) Crew members
+    2) Passenger members
+    3) Capacity
+    4) Engine power
+    5) total weight
 3 things it can do:
-    1)
-    2)
-    3)
+    1) retract/extend landing gear
+    2) increase/decrease engine power
+    3) Angle wings up/down
  */
 
 
