@@ -142,5 +142,36 @@ Sub-obj: Wrist
 #include <iostream>
 int main()
 {
+    struct Thumb
+    {
+
+    };
+
+    struct Finger
+    {
+
+    };
+
+    struct Palm
+    {
+
+    };
+
+    struct BackOfHand
+    {
+
+    };
+
+    struct Wrist
+    {
+
+    };
+
+
+    struct Hand
+    {
+        
+    };
+
     std::cout << "good to go!" << std::endl;
 }
