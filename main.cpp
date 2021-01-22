@@ -81,7 +81,50 @@ Sub Object 5: Seat
     Name 2 things you can do with the:   Seat
         1) adjust recline angle
         2) adjust headrest height
+
+
+
+1b)
+Object 1: Octopus
+    member variables: legs, head, jets, beak, color
+
+    member functions: squirt ink, open clams, change color
+
+Object 2: Band
+    member variables: numOfPeople, Guitarist, Drummer, Bassist, Singer
+
+    member functions: play tune, inspire crowd, annoy neighbors
+
+Object 3: Espresso Machine
+    member variables: water heater, water tank, espresso cup, portafilter
+
+    member functions: heat water, make coffee, make alert sound
+
+Object 4: Airplane
+    member variables: engine, landing gear, left wing, right wing, number of crewmembers, pilot
+
+    member functions: start engine, retract landing gear, accelerate, adjust cabin pressure
+
+
+
+1c) 
+Main object: Hand
+5 sub-objects: Thumb, Finger, Palm, Back of Hand, Wrist
+
+1d)
+Sub-obj: Thumb
+    member variables: number of joints, length, nail length, is double jointed
+Sub-obj: Finger
+    member variables: number of joints, length, nail length, nail color
+Sub-obj: Palm
+    member variables: is smooth, is clammy, x orientation, y orientation, z orientation
+Sub-obj: Back of Hand
+    member variables: is hard, temperature
+Sub-obj: Wrist
+    member variables: rotation degree, flex degree
 */
+
+
 /*
  MAKE SURE YOU ARE NOT ON THE MASTER BRANCH
 
