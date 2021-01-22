@@ -114,14 +114,27 @@ Main object: Hand
 1d)
 Sub-obj: Thumb
     member variables: number of joints, length, nail length, is double jointed
+    
+    member functions:
+
 Sub-obj: Finger
     member variables: number of joints, length, nail length, nail color
+
+    member functions:
+
 Sub-obj: Palm
-    member variables: is smooth, is clammy, x orientation, y orientation, z orientation
+    member variables: is open, is clammy, x orientation, y orientation, z orientation
+    
+    member functions:
+
 Sub-obj: Back of Hand
     member variables: is hard, temperature
+
+    member functions:
 Sub-obj: Wrist
     member variables: rotation degree, flex degree
+
+    member functions:
 */
 
 
@@ -144,33 +157,47 @@ int main()
 {
     struct Thumb
     {
-
+        int numOfJoints;
+        float length, nailLength;
+        bool isDoubleJointed;
     };
 
     struct Finger
     {
-
+        int numOfJoints;
+        float length, nailLength;
+        char nailColor;
     };
 
     struct Palm
     {
-
+        bool isOpen;
+        bool isClammy; 
+        float xOrientation, yOrientation, zOrientation;
     };
 
     struct BackOfHand
     {
-
+        char texture;
+        float temperature;
     };
 
     struct Wrist
     {
-
+        float rotationDegree, flexDegree;
     };
 
 
     struct Hand
     {
-        
+        Thumb thinga;
+        Finger indexFing;
+        Finger middleFing;
+        Finger ringFing;
+        Finger pinkyFing;
+        Palm nicePalm;
+        BackOfHand toughBack;
+        Wrist limberWrist;
     };
 
     std::cout << "good to go!" << std::endl;
