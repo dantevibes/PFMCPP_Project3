@@ -110,17 +110,20 @@ Thing 4) Airplane
  */
 
 /*
-Thing 10) Hand
+Thing 10) Synthesizer
 5 properties:
-    1) Finger
-    2) Palm
-    3) Knuckle
-    4) Back
-    5) Wrist
+    1) Filters
+    2) Oscillators
+    3) Amplifiers
+    4) Presets
+    5) Effects
 3 things it can do:
-    1) Grab object
-    2) Flatten
-    3) Give signal
+    1) Play sound
+    2) Store preset
+    3) Modulate input
+
+
+
  */
 
 /*
