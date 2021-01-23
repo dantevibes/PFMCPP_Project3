@@ -125,73 +125,73 @@ Thing 4) Airplane
  */
 
 /*
-Thing 5)
+Thing 5) Filter
 5 properties:
-    1)
-    2)
-    3)
-    4)
-    5)
+    1) Cutoff
+    2) Resonance
+    3) Type
+    4) Envelope amount
+    5) Wet/dry
 3 things it can do:
-    1)
-    2)
-    3)
+    1)  Switch state
+    2)  Switch inputs
+    3)  Sweep up/down
  */
 
 /*
-Thing 6)
+Thing 6) Oscillator
 5 properties:
-    1)
-    2)
-    3)
-    4)
-    5)
+    1) Pitch
+    2) Waveform
+    3) Phase
+    4) Pitch bend
+    5) LFO amount
 3 things it can do:
-    1)
-    2)
-    3)
+    1) Make signal
+    2) Sync with another oscillator
+    3) Modulate other parameter
  */
 
 /*
-Thing 7)
+Thing 7) Amplifier
 5 properties:
-    1)
-    2)
-    3)
-    4)
-    5)
+    1) Gain
+    2) Tone
+    3) Waveshaper type
+    4) bass boost
+    5) Output
 3 things it can do:
-    1)
-    2)
-    3)
+    1) Attenuate signal
+    2) Saturation
+    3) Change waveshaper
  */
 
 /*
-Thing 8)
+Thing 8) Preset
 5 properties:
-    1)
-    2)
-    3)
-    4)
-    5)
+    1) Name
+    2) Category
+    3) Number of parameters
+    4) Filetype
+    5) File size
 3 things it can do:
-    1)
-    2)
-    3)
+    1) Store preset
+    2) Recall preset
+    3) Rename preset
  */
 
 /*
-Thing 9)
+Thing 9) Effect
 5 properties:
-    1)
-    2)
-    3)
-    4)
-    5)
+    1) Type
+    2) Speed
+    3) Feedback
+    4) Tone
+    5) Wet/Dry
 3 things it can do:
-    1)
-    2)
-    3)
+    1) Switch inputs
+    2) Switch types
+    3) Process audio
  */
 
 /*
