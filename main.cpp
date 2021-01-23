@@ -141,10 +141,10 @@ Thing 5) Filter
 /*
 Thing 6) Oscillator
 5 properties:
-    1) Pitch
+    1) Tuning (semitones)
     2) Waveform
-    3) Phase
-    4) Pitch bend
+    3) Phase (degree)
+    4) Noise level
     5) LFO amount
 3 things it can do:
     1) Make signal
@@ -155,11 +155,11 @@ Thing 6) Oscillator
 /*
 Thing 7) Amplifier
 5 properties:
-    1) Gain
+    1) Drive level 
     2) Tone
     3) Waveshaper type
-    4) bass boost
-    5) Output
+    4) bass boost (int)
+    5) Output level 
 3 things it can do:
     1) Attenuate signal
     2) Saturation
@@ -181,16 +181,16 @@ Thing 8) Preset
  */
 
 /*
-Thing 9) Effect
+Thing 9) Delay
 5 properties:
-    1) Type
-    2) Speed
+    1) Type 
+    2) Speed (ms)
     3) Feedback
     4) Tone
     5) Wet/Dry
 3 things it can do:
     1) Switch inputs
-    2) Switch types
+    2) Switch feedback to be pre/post wet/dry
     3) Process audio
  */
 
