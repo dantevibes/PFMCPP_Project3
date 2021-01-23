@@ -27,12 +27,12 @@ I recommend compiling after finishing each one and making sure it compiles
 without errors or warnings before moving on to writing the next UDT. 
 
 1) define an empty struct for each of your 10 types. i.e.:
-*/
+
 struct CarWash
 {
 
 };
-/*
+
 2) Copy your 5 properties & 3 actions into the empty struct body.
     - comment them out.
     
@@ -128,7 +128,26 @@ Thing 1) Octopus
     2) change color
     3) squirt ink
  */
+struct Octopus
+{
+    //number of arms
+    int numOfArms;
+    //amount of ink
+    float inkAmount;
+    //color
+    char color;
+    // shape
+    char shape;
+    //size in ft
+    float size;
 
+    //catch a fish, bool to return fishCaught
+    bool catchAFish(int whichArm);
+    //change color
+    void changeColor(char color, char secondaryColor);
+    //squirt ink
+    void squirtInk(float inkSize, char escapeDirection);
+};
 /*
 Thing 2) Band
 5 properties:
@@ -142,7 +161,26 @@ Thing 2) Band
     2) Record a song
     3) Post on social media
  */
+struct Band
+{
+    //number of band members
+    int numOfMembers;
+    //genre of band
+    char genre;
+    //number of albums sold
+    int albumsSold;
+    // budget in dollars
+    double budget;
+    //number of songs written
+    int numOfSongs;
 
+    //play for an audience
+    void playForAudience(char whichSong, int tempo, bool countOff);
+    //record a song
+    std::string recordASong(char songName, char secondaryColor);
+    //post on social media
+    void postOnInsta(int numOfPics, char filter, std::string postText);
+};
 /*
 Thing 3) Espresso Machine
 5 properties:
@@ -156,7 +194,26 @@ Thing 3) Espresso Machine
     2) Pour water through coffee
     3) Make sound when done
  */
+struct EspressoMachine
+{
+    //Amount of water in tank
+    float cupsOfWater;
+    //Type of coffee
+    char coffeeType;
+    //water temperature
+    int waterTempInF;
+    // tablespoons of coffee grounds
+    float tbspOfGrounds;
+    //steamer pressure
+    int steamerPressure;
 
+    //Heat water
+    void heatWater(int waterLevel, int targetTempInF);
+    //Pour coffee
+    void pourCoffee(float pourTime);
+    //Make sound when done
+    void makeSoundWhenDone(int loudness);
+};
 /*
 Thing 4) Airplane
 5 properties:
@@ -170,23 +227,28 @@ Thing 4) Airplane
     2) increase/decrease engine power
     3) Angle wings up/down
  */
+struct Airplane
+{
+    //num of Crew members
+    int numOfCrew;
+    //num of Passenger members
+    int numOfPassengers;
+    //maximumCapacity
+    int maxCapacity;
+    // engine horse power
+    float engineHorsePower;
+    //steamer pressure
+    int totalWeightInLbs;
 
+    //extend lending gear
+    void extendLandingGear(bool landingGearExtended);
+    //decrease engine power
+    void changeEnginePower(float amountChanged, int whichEngine);
+    //Angle wings up
+    int angleWingsForTakeoff();
+};
 /*
-Thing 5) Filter
-5 properties:
-    1) Cutoff
-    2) Resonance
-    3) Type
-    4) Envelope amount
-    5) Wet/dry
-3 things it can do:
-    1)  Switch state
-    2)  Switch inputs
-    3)  Sweep up/down
- */
-
-/*
-Thing 6) Oscillator
+Thing 5) Oscillator
 5 properties:
     1) Tuning (semitones)
     2) Waveform
@@ -198,7 +260,80 @@ Thing 6) Oscillator
     2) Sync with another oscillator
     3) Modulate other parameter
  */
+struct Oscillator
+{
+    //Tuning (semitones)
+    int semitones;
+    //Waveform
+    char Waveform;
+    //Phase
+    int phaseDegree;
+    // Noise level
+    float noiseLevel;
+    //LFO amount
+    int lfoAmount;
 
+    //generate signal
+    void outputSignal(char channel, int amplitude);
+    //Sync with another oscillator
+    void syncOscillator(Oscillator oscToSyncTo);
+    //Modulate other parameter
+    void outputAsLFO(std::string targetParameter);
+};
+/*
+Thing 6) Filter
+5 properties:
+    1) Cutoff
+    2) Resonance
+    3) Type
+    4) Envelope amount
+    5) Wet/dry
+3 things it can do:
+    1)  Switch state
+    2)  Switch inputs
+    3)  Sweep up/down
+ */
+struct Filter
+{
+    //Cutoff freq
+    int cutoffFreq;
+    // Resonance
+    int resonance;
+    // Type
+    char filterType;
+    // Envelope amount
+    int envAmount;
+    // Wet/dry
+    int wet;
+
+    struct LFO
+    {
+        //LFO frequency
+        float frequency;
+        // bpm ratio of the LFO frequency
+        int tempoMultiplier;
+        //LFO waveform
+        int waveform;
+        //Makes waveform sharper/smoother
+        float waveformMorph;
+        //tells whether lfo is synced to bpm
+        bool bpmSync;
+
+        //change waveform
+        void changeWaveform(int nextWave);
+        //change LFO bpm ratio
+        void changeTempoMultiplier(int newValue);
+        //sync LFO to Oscillator
+        void syncToOscillator(Oscillator syncTo, float warpAmount);
+    };
+
+    // Switch state
+    void changeType(char nextType);
+    //Switch inputs
+    void switchInput(int newInput);
+    //Sweep up/down
+    void filterSweep(int startFreq, int endFreq);
+};
 /*
 Thing 7) Amplifier
 5 properties:
@@ -212,23 +347,28 @@ Thing 7) Amplifier
     2) Saturation
     3) Change waveshaper
  */
+struct Amplifier
+{
+    //Drive level 
+    float driveLevel;
+    //Tone
+    int toneLevel;
+    //Waveshaper type
+    int waveshaperType;
+    // bass boost (int)
+    float bassBoostLevel;
+    //Output level 
+    float outputLevel;
 
+    //Attenuate signal
+    void divideSignalBy(float denominator);
+    //Saturation
+    void addDrive(float driveAmount, Filter inputFilter, Filter outputFilter);
+    //Change waveshaper
+    void changeWaveshaperMode(int nextMode);
+};
 /*
-Thing 8) Preset
-5 properties:
-    1) Name
-    2) Category
-    3) Number of parameters
-    4) Filetype
-    5) File size
-3 things it can do:
-    1) Store preset
-    2) Recall preset
-    3) Rename preset
- */
-
-/*
-Thing 9) Delay
+Thing 8) Delay
 5 properties:
     1) Type 
     2) Speed (ms)
@@ -240,7 +380,59 @@ Thing 9) Delay
     2) Switch feedback to be pre/post wet/dry
     3) Process audio
  */
+struct Delay
+{
+    //Type 
+    int type;
+    //Speed in ms
+    int delayTimeMs;
+    //Feedback
+    float feedbackLevel;
+    // Tone
+    float toneLevel;
+    //Wet/Dry
+    int wetBalance;
 
+    //Switch inputs
+    void switchInput(char newInput);
+    //Switch feedback to be pre/post wet/dry
+    void moveFeedbackPrePost(bool preWet);
+    //Process audio
+    float processInput();
+};
+/*
+Thing 9) Preset
+5 properties:
+    1) Name
+    2) Category
+    3) Number of parameters
+    4) Filetype
+    5) File size
+3 things it can do:
+    1) Store preset
+    2) Recall preset
+    3) Rename preset
+ */
+struct Preset
+{
+    //Name
+    std::string presetName;
+    //Category
+    char presetCategory;
+    //Number of parameters
+    int numOfParameters;
+    // Filetype
+    char fileType;
+    //File size in mb
+    float fileSize;
+
+    //Store preset
+    void storePreset(std::string presetName, char presetCategory, int numOfParameters, Oscillator thisWave, Filter thisFilt, Amplifier thisAmp, Delay thisDel);
+    //Recall preset
+    void loadPreset(std::string whichPreset);
+    //Rename preset
+    void renamePreset(std::string newName);
+};
 /*
 Thing 10) Synthesizer
 5 properties:
@@ -253,11 +445,48 @@ Thing 10) Synthesizer
     1) Play sound
     2) Store preset
     3) Modulate input
-
-
-
  */
+struct Synthesizer
+{
+    //Oscillators
+    Oscillator osc1;
+    //Filter
+    Filter lowPass;
+    //Amplifier
+    Amplifier tubeAmp;
+    //Delay
+    Delay pingPong;
+    // Preset
+    Preset midnightRunner;
 
+    struct inputBus
+    {   
+        //input gain LR in dB
+        float inputLeftGainDb;
+        float inputRightGainDb;
+        //input level LR in dB
+        float outputLeftSignalDb;
+        float outputRightSignalDb;
+        //tells whether input is summed to mono
+        bool isMono;
+
+        //use input as modulation for a parameter
+        void actAsCarrierOscillator(int sourceChannel, std::string targetParam);
+        //take stereo input and output mono, adjusting level
+        float sumInputSignalToMono(float sourceChannelSignalL, 
+        float sourceChannelSignalR, float attenuate);
+        //write input to buffer, adjusting level
+        void readInputSignalStereo(int sourceChannelL, int sourceChannelR, float attenuate);
+
+    };
+
+    //play sound
+    void makeNote(int noteNum, int velocity);
+    //store preset
+    void storePreset(std::string presetName);
+    //affect input
+    void modulateInput(inputBus externalInstrument, std::string parameterName);
+};
 /*
  MAKE SURE YOU ARE NOT ON THE MASTER BRANCH
 
