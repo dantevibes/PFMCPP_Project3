@@ -215,7 +215,7 @@ void Octopus::changeColor(char newColor, char thisColor)
 void Octopus::squirtInk(float inkSize, char escapeDirection)
 {
     inkAmount -= inkSize;
-    //swimAway(escapeDirection);
+    escapeDirection = 'W';
 }
 
 
@@ -237,10 +237,9 @@ void Band::playForAudience(char whichSong, int tempo, bool countOff)
 {
     if(countOff)
     {
-        //Drummer.countOff(tempo);
+        tempo = 130;
     }
-    //Guitarist.chordProgression(whichSong);
-    //Singer.melody(whichSong);
+    whichSong = 'V';
 }
 std::string Band::nameASong(std::string word1, std::string word2)
 {   
@@ -250,7 +249,9 @@ std::string Band::nameASong(std::string word1, std::string word2)
 
 void Band::postOnInsta(int numOfPics, char filter, std::string postText)
 {
-    //insta.upload(numOfPics,filter,postText);
+    numOfPics = 5;
+    filter = 'N';
+    postText = "Had an awesome time at Club Buddhabump last nite!";
 }
 
 
@@ -267,6 +268,7 @@ struct EspressoMachine
     void pourCoffee(float pourTime);
     void makeSoundWhenDone(int loudness);
 };
+
 void EspressoMachine::heatWater(int waterLevel, int targetTempInF)
 {
     if(waterTempInF < targetTempInF)
@@ -278,12 +280,12 @@ void EspressoMachine::pourCoffee(float pourTime)
 {
     for(int i = 0; i < pourTime ; i++)
     {
-        //Cup.addCoffee(coffeeType);
+        cupsOfWater -= 1;
     }
 }
 void EspressoMachine::makeSoundWhenDone(int loudness)
 {
-    //Bell.ding(loudness);
+    loudness *= 2;
 }
 
 
@@ -299,6 +301,7 @@ struct Airplane
     void changeEnginePower(float amountChanged, int whichEngine);
     bool angleWingsForTakeoff(int wingAngleDegree);
 };
+
 void Airplane::extendLandingGear(bool landingGearExtended)
 {
     if(landingGearExtended == false)
@@ -309,10 +312,11 @@ void Airplane::extendLandingGear(bool landingGearExtended)
 void Airplane::changeEnginePower(float amountChanged, int whichEngine)
 {
     engineHorsePower += amountChanged;
+    whichEngine = 2;
 }
 bool Airplane::angleWingsForTakeoff(int wingAngleDegree)
 {
-    //WingFlapAngle += wingAngleDegree;
+    wingAngleDegree += 3;
     bool isFlying = false;
     if( engineHorsePower > 2000)
     {
@@ -335,10 +339,14 @@ struct Oscillator
     void syncOscillator(Oscillator oscToSyncTo);
     void outputAsLFO(std::string targetParameter);
 };
+
 void Oscillator::outputSignal(char channel, int amplitude)
 {
-    //makeNote(semitone, waveform)
-    //writeSignalToOutputBuffer(channel, amplitude);
+    for(int i = 0; i < 2; i++)
+    {
+        channel = 'L';
+        amplitude = 75 * i;
+    }
 }
 void Oscillator::syncOscillator(Oscillator oscToSyncTo)
 {
@@ -346,8 +354,7 @@ void Oscillator::syncOscillator(Oscillator oscToSyncTo)
 }
 void Oscillator::outputAsLFO(std::string targetParameter)
 {
-    //writeSignalToOutputBuffer(channel, amplitude);
-    //routeOutputBufferTo(targetParameter);
+    targetParameter = "LFO output target";
 }
 
 
@@ -376,25 +383,25 @@ struct Filter
     void switchInput(int newInput);
     void filterSweep(int startFreq, int endFreq, float sweepTimeInMillis);
 };
+
 void Filter::changeType(char nextType)
 {
     filterType = nextType;
 }
 void Filter::switchInput(int newInput)
 {
-    //inputChannel = newInput;
+    newInput += 1;
+    if(newInput > 5) newInput = 0;
 }
 void Filter::filterSweep(int startFreq, int endFreq, float sweepTimeInMillis)
 {
-    cutoffFreq = startFreq;
-    if(cutoffFreq < endFreq)
+    for(float f = 0.0f; f < sweepTimeInMillis; f += 0.5f)
     {
-        cutoffFreq++;
-    }
-    else
-    {
-        cutoffFreq--;
-    }
+        cutoffFreq = startFreq;
+        if(cutoffFreq < endFreq) cutoffFreq++;
+
+        else  cutoffFreq--;
+    } 
 }
 void Filter::LFO::changeWaveform(int nextWave)
 {
@@ -407,6 +414,7 @@ void Filter::LFO::changeTempoMultiplier(int newValue)
 void Filter::LFO::syncToOscillator(Oscillator syncTo, float warpAmount)
 {
     frequency = syncTo.lfoAmount;
+    warpAmount = 30.3f;
 }
 
 
@@ -428,9 +436,8 @@ void Amplifier::divideSignalBy(float denominator)
 }
 void Amplifier::addDrive(float driveAmount, Filter inputFilter, Filter outputFilter)
 {
-    //processSignal(inputFilter);
+    outputFilter.cutoffFreq = inputFilter.cutoffFreq;
     driveLevel += driveAmount;
-    //processSignal(outputFilter);
 }
 void Amplifier::changeWaveshaperMode(int nextMode)
 {
@@ -451,24 +458,26 @@ struct Delay
     void moveFeedbackPrePost(bool preWet);
     float processInput();
 };
+
 void Delay::switchInput(char newInput)
 {
-    char input = newInput;
+    newInput = 'C';
 }
 void Delay::moveFeedbackPrePost(bool preWet)
 {
     if(preWet)
     {
-        //setFeedbackLevel(feedbackLevel-wetBalance);
+        feedbackLevel ++;
     }
     else
     {
-        //setFeedbackLevel(feedbackLevel);
+        feedbackLevel --;
     }
 }
 float Delay::processInput()
 {
-    //writeToOutputBuffer();
+    toneLevel += wetBalance;
+    return toneLevel;
 }
 
 
@@ -485,9 +494,10 @@ struct Preset
     void loadPreset(std::string whichPreset);
     void renamePreset(std::string newName);
 };
-void Preset::storePreset(std::string presetName)
+
+void Preset::storePreset(std::string thisName)
 {
-    //overWritePresetNamed(presetName);
+    thisName = "CoolCids";
 }
 void Preset::loadPreset(std::string whichPreset)
 {
@@ -497,6 +507,8 @@ void Preset::renamePreset(std::string newName)
 {
     presetName = newName;
 }
+
+
 
 struct Synthesizer
 {
@@ -525,9 +537,12 @@ struct Synthesizer
     void storePreset(std::string presetName);
     void modulateInput(inputBus externalInstrument, std::string parameterName);
 };
+
 void Synthesizer::makeNote(int noteNum, int velocity, Oscillator thisOsc)
 {
     thisOsc.semitone = noteNum;
+    velocity = 200;
+
 }
 void Synthesizer::storePreset(std::string presetName)
 {
@@ -537,22 +552,27 @@ void Synthesizer::modulateInput(inputBus externalInstrument, std::string paramet
 {
     externalInstrument.outputLeftSignalDb += 40.5f;
     externalInstrument.outputRightSignalDb += 40.5f;
+    parameterName = "sidechain input";
 }
 void Synthesizer::inputBus::actAsCarrierOscillator(int sourceChannel, std::string targetParam)
 {
-    //sourceChannel = readValue(targetParam);
+    sourceChannel = 3;
+    targetParam = "ringmod frequency";
 }
 float Synthesizer::inputBus::sumInputSignalToMono(float sourceChannelSignalL, 
 float sourceChannelSignalR, float attenuate)
 {
     if(isMono)
     {
-        return inputLeftGainDb + inputRightGainDb;
+        return (sourceChannelSignalL + sourceChannelSignalR)/attenuate;
     }
+
+    return sourceChannelSignalL/attenuate;
 }
 void Synthesizer::inputBus::readInputSignalStereo(int sourceChannelL, int sourceChannelR, float attenuate)
 {
-    //writeToBuffer((sourceChannelL + sourceChannelR) * attenuate);
+    sourceChannelL /= attenuate;
+    sourceChannelR /= attenuate;
 }
 
 /*
