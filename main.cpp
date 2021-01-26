@@ -107,8 +107,35 @@ struct CarWash
     you should be able to deduce the return type of those functions based on their usage in Person::run()
     You'll need to insert the Person struct from the video in the space below.
  */
+struct Person 
+{
+    int age;
+    int height;
+    float hairLength;
+    float GPA;
+    unsigned int SATScore;
+
+    void run(int howFast, bool startWithLeftFoot);
+};
 
 
+struct Foot
+{
+    int sizeOfFoot;
+
+    void stepForward(int stepLength, int distanceTraveled);
+    int stepSize(Foot whichFoot);
+};
+
+void Foot::stepForward(int stepLength, int distanceTraveled)
+{
+    distanceTraveled += stepLength;
+}
+
+int Foot::stepSize(Foot whichFoot)
+{
+    return whichFoot.sizeOfFoot;
+}
 
 
 
@@ -125,419 +152,409 @@ struct CarWash
 #include <iostream>
 #include <string>
 
-struct CarWash //                                   1) define an empty struct for each of your 10 types.       
+struct CarWash                                  
 {
-    //number of vacuum cleaners                     2) copied and commented-out plain-english property
-    int numVacuumCleaners = 3; //                   3) member variables with relevant data types.
-    //number of eco-friendly cleaning supplies      
-    int numEcoFriendlyCleaningSupplies = 20;     
-    //stores the amount of water used per week.     
-    float waterUsedPerWeek = 200.f;            
-    //stores amount of profit made per week         
-    float profitPerWeek = 495.95f;               
-    //number of cars serviced per day               
+
+    int numVacuumCleaners = 3; 
+    int numEcoFriendlyCleaningSupplies = 20;       
+    float waterUsedPerWeek = 200.f;                    
+    float profitPerWeek = 495.95f;                         
     int numberOfCarsServiced = 10;               
     
-    struct Car //5)                                 Note that the nested type 'Car' is related to the 'CarWash' 
+    struct Car                                 
     {
-        //2) member variables with relevant data types.  the names are appropriate for the U.D.T.'s purpose.
         bool isAPickupTruck = false;
         float gasMileage = 26.2f;        
         int year = 1985;
         std::string manufacturer = "Toyota";
         std::string model = "Corolla";
 
-        //3) a member function whose parameter has a default value.
-        //the parameter name is related to the work the function will perform.
+   
         void fillTank(double fuelAmountInGallons = 2.0);  
         void breakDown(std::string failureType, bool requiresTow = false);
         int getMilesTraveledAnnually(bool includeUberLyftTrips);
     };
 
-    //wash and wax car
-    void washAndWaxCar( Car car ); //4) a member function whose parameter is a UDT.
-    //charge customer
+   
+    void washAndWaxCar( Car car ); 
     float chargeCustomer(float discountPercentage);
-    //detail the car interior
     void detailInterior( Car car );
     
-    //5) a member variable whose type is a UDT.
     Car carBeingServiced;  
 };
 
 
-/*
-Thing 1) Octopus
-5 properties:
-    1) number of arms
-    2) amount of ink
-    3) color
-    4) shape
-    5) size
-3 things it can do:
-    1) catch a fish
-    2) change color
-    3) squirt ink
- */
+
 struct Octopus
 {
-    //number of arms
     int numOfArms;
-    //amount of ink
     float inkAmount;
-    //color
     char color;
-    // shape
     char shape;
-    //size in ft
     float size;
 
-    //catch a fish, bool to return fishCaught
-    bool catchAFish(int whichArm);
-    //change color
-    void changeColor(char color, char secondaryColor);
-    //squirt ink
+    bool catchAFish(int whichArm, int distanceToFish);
+    void changeColor(char newColor, char thisColor);
     void squirtInk(float inkSize, char escapeDirection);
 };
-/*
-Thing 2) Band
-5 properties:
-    1) Number of people in band
-    2) Type of band
-    3) Number of albums sold
-    4) Budget
-    5) Number of songs written
-3 things it can do:
-    1) Play for an audience
-    2) Record a song
-    3) Post on social media
- */
+
+bool Octopus::catchAFish(int whichArm, int distanceToFish)
+{
+    bool fishWasCaught = false;
+    if (whichArm + distanceToFish < 10)
+    {
+        fishWasCaught = true;
+    }
+
+    return fishWasCaught;
+}
+void Octopus::changeColor(char newColor, char thisColor)
+{
+    thisColor = newColor;
+}
+void Octopus::squirtInk(float inkSize, char escapeDirection)
+{
+    inkAmount -= inkSize;
+    //swimAway(escapeDirection);
+}
+
+
+
 struct Band
 {
-    //number of band members
     int numOfMembers;
-    //genre of band
     char genre;
-    //number of albums sold
     int albumsSold;
-    // budget in dollars
     double budget;
-    //number of songs written
     int numOfSongs;
 
-    //play for an audience
     void playForAudience(char whichSong, int tempo, bool countOff);
-    //record a song
-    std::string recordASong(char songName, char secondaryColor);
-    //post on social media
+    std::string nameASong(std::string word1, std::string word2);
     void postOnInsta(int numOfPics, char filter, std::string postText);
 };
-/*
-Thing 3) Espresso Machine
-5 properties:
-    1) Amount of water in tank
-    2) Type of coffee
-    3) water temperature
-    4) tablespoons of coffee grounds
-    5) steamer pressure
-3 things it can do:
-    1) Heat water
-    2) Pour water through coffee
-    3) Make sound when done
- */
+
+void Band::playForAudience(char whichSong, int tempo, bool countOff)
+{
+    if(countOff)
+    {
+        //Drummer.countOff(tempo);
+    }
+    //Guitarist.chordProgression(whichSong);
+    //Singer.melody(whichSong);
+}
+std::string Band::nameASong(std::string word1, std::string word2)
+{   
+    std::string songTitle = word1 + word2;
+    return songTitle;
+}
+
+void Band::postOnInsta(int numOfPics, char filter, std::string postText)
+{
+    //insta.upload(numOfPics,filter,postText);
+}
+
+
+
 struct EspressoMachine
 {
-    //Amount of water in tank
     float cupsOfWater;
-    //Type of coffee
     char coffeeType;
-    //water temperature
     int waterTempInF;
-    // tablespoons of coffee grounds
     float tbspOfGrounds;
-    //steamer pressure
     int steamerPressure;
 
-    //Heat water
     void heatWater(int waterLevel, int targetTempInF);
-    //Pour coffee
     void pourCoffee(float pourTime);
-    //Make sound when done
     void makeSoundWhenDone(int loudness);
 };
-/*
-Thing 4) Airplane
-5 properties:
-    1) Crew members
-    2) Passenger members
-    3) Capacity
-    4) Engine power
-    5) total weight
-3 things it can do:
-    1) retract/extend landing gear
-    2) increase/decrease engine power
-    3) Angle wings up/down
- */
+void EspressoMachine::heatWater(int waterLevel, int targetTempInF)
+{
+    if(waterTempInF < targetTempInF)
+    {
+        waterTempInF += 10/waterLevel;
+    }
+}
+void EspressoMachine::pourCoffee(float pourTime)
+{
+    for(int i = 0; i < pourTime ; i++)
+    {
+        //Cup.addCoffee(coffeeType);
+    }
+}
+void EspressoMachine::makeSoundWhenDone(int loudness)
+{
+    //Bell.ding(loudness);
+}
+
+
 struct Airplane
 {
-    //num of Crew members
     int numOfCrew;
-    //num of Passenger members
     int numOfPassengers;
-    //maximumCapacity
     int maxCapacity;
-    // engine horse power
     float engineHorsePower;
-    //steamer pressure
     int totalWeightInLbs;
 
-    //extend lending gear
     void extendLandingGear(bool landingGearExtended);
-    //decrease engine power
     void changeEnginePower(float amountChanged, int whichEngine);
-    //Angle wings up
-    int angleWingsForTakeoff();
+    bool angleWingsForTakeoff(int wingAngleDegree);
 };
-/*
-Thing 5) Oscillator
-5 properties:
-    1) Tuning (semitones)
-    2) Waveform
-    3) Phase (degree)
-    4) Noise level
-    5) LFO amount
-3 things it can do:
-    1) Make signal
-    2) Sync with another oscillator
-    3) Modulate other parameter
- */
+void Airplane::extendLandingGear(bool landingGearExtended)
+{
+    if(landingGearExtended == false)
+    {
+        landingGearExtended = true;
+    }
+}
+void Airplane::changeEnginePower(float amountChanged, int whichEngine)
+{
+    engineHorsePower += amountChanged;
+}
+bool Airplane::angleWingsForTakeoff(int wingAngleDegree)
+{
+    //WingFlapAngle += wingAngleDegree;
+    bool isFlying = false;
+    if( engineHorsePower > 2000)
+    {
+        isFlying = true;
+    }
+    return isFlying;
+}
+
+
+
 struct Oscillator
 {
-    //Tuning (semitones)
-    int semitones;
-    //Waveform
-    char Waveform;
-    //Phase
+    int semitone;
+    char waveform;
     int phaseDegree;
-    // Noise level
     float noiseLevel;
-    //LFO amount
     int lfoAmount;
 
-    //generate signal
     void outputSignal(char channel, int amplitude);
-    //Sync with another oscillator
     void syncOscillator(Oscillator oscToSyncTo);
-    //Modulate other parameter
     void outputAsLFO(std::string targetParameter);
 };
-/*
-Thing 6) Filter
-5 properties:
-    1) Cutoff
-    2) Resonance
-    3) Type
-    4) Envelope amount
-    5) Wet/dry
-3 things it can do:
-    1)  Switch state
-    2)  Switch inputs
-    3)  Sweep up/down
- */
+void Oscillator::outputSignal(char channel, int amplitude)
+{
+    //makeNote(semitone, waveform)
+    //writeSignalToOutputBuffer(channel, amplitude);
+}
+void Oscillator::syncOscillator(Oscillator oscToSyncTo)
+{
+    phaseDegree = oscToSyncTo.phaseDegree;
+}
+void Oscillator::outputAsLFO(std::string targetParameter)
+{
+    //writeSignalToOutputBuffer(channel, amplitude);
+    //routeOutputBufferTo(targetParameter);
+}
+
+
 struct Filter
 {
-    //Cutoff freq
     int cutoffFreq;
-    // Resonance
     int resonance;
-    // Type
     char filterType;
-    // Envelope amount
     int envAmount;
-    // Wet/dry
     int wet;
 
     struct LFO
     {
-        //LFO frequency
         float frequency;
-        // bpm ratio of the LFO frequency
         int tempoMultiplier;
-        //LFO waveform
         int waveform;
-        //Makes waveform sharper/smoother
         float waveformMorph;
-        //tells whether lfo is synced to bpm
         bool bpmSync;
 
-        //change waveform
         void changeWaveform(int nextWave);
-        //change LFO bpm ratio
         void changeTempoMultiplier(int newValue);
-        //sync LFO to Oscillator
         void syncToOscillator(Oscillator syncTo, float warpAmount);
     };
 
-    // Switch state
     void changeType(char nextType);
-    //Switch inputs
     void switchInput(int newInput);
-    //Sweep up/down
-    void filterSweep(int startFreq, int endFreq);
+    void filterSweep(int startFreq, int endFreq, float sweepTimeInMillis);
 };
-/*
-Thing 7) Amplifier
-5 properties:
-    1) Drive level 
-    2) Tone
-    3) Waveshaper type
-    4) bass boost (int)
-    5) Output level 
-3 things it can do:
-    1) Attenuate signal
-    2) Saturation
-    3) Change waveshaper
- */
+void Filter::changeType(char nextType)
+{
+    filterType = nextType;
+}
+void Filter::switchInput(int newInput)
+{
+    //inputChannel = newInput;
+}
+void Filter::filterSweep(int startFreq, int endFreq, float sweepTimeInMillis)
+{
+    cutoffFreq = startFreq;
+    if(cutoffFreq < endFreq)
+    {
+        cutoffFreq++;
+    }
+    else
+    {
+        cutoffFreq--;
+    }
+}
+void Filter::LFO::changeWaveform(int nextWave)
+{
+    waveform = nextWave;
+}
+void Filter::LFO::changeTempoMultiplier(int newValue)
+{
+    tempoMultiplier = newValue;
+}
+void Filter::LFO::syncToOscillator(Oscillator syncTo, float warpAmount)
+{
+    frequency = syncTo.lfoAmount;
+}
+
+
 struct Amplifier
 {
-    //Drive level 
     float driveLevel;
-    //Tone
     int toneLevel;
-    //Waveshaper type
     int waveshaperType;
-    // bass boost (int)
     float bassBoostLevel;
-    //Output level 
     float outputLevel;
 
-    //Attenuate signal
     void divideSignalBy(float denominator);
-    //Saturation
     void addDrive(float driveAmount, Filter inputFilter, Filter outputFilter);
-    //Change waveshaper
     void changeWaveshaperMode(int nextMode);
 };
-/*
-Thing 8) Delay
-5 properties:
-    1) Type 
-    2) Speed (ms)
-    3) Feedback
-    4) Tone
-    5) Wet/Dry
-3 things it can do:
-    1) Switch inputs
-    2) Switch feedback to be pre/post wet/dry
-    3) Process audio
- */
+void Amplifier::divideSignalBy(float denominator)
+{
+    outputLevel = outputLevel/denominator;
+}
+void Amplifier::addDrive(float driveAmount, Filter inputFilter, Filter outputFilter)
+{
+    //processSignal(inputFilter);
+    driveLevel += driveAmount;
+    //processSignal(outputFilter);
+}
+void Amplifier::changeWaveshaperMode(int nextMode)
+{
+    waveshaperType = nextMode;
+}
+
+
+
 struct Delay
 {
-    //Type 
     int type;
-    //Speed in ms
     int delayTimeMs;
-    //Feedback
     float feedbackLevel;
-    // Tone
     float toneLevel;
-    //Wet/Dry
     int wetBalance;
 
-    //Switch inputs
     void switchInput(char newInput);
-    //Switch feedback to be pre/post wet/dry
     void moveFeedbackPrePost(bool preWet);
-    //Process audio
     float processInput();
 };
-/*
-Thing 9) Preset
-5 properties:
-    1) Name
-    2) Category
-    3) Number of parameters
-    4) Filetype
-    5) File size
-3 things it can do:
-    1) Store preset
-    2) Recall preset
-    3) Rename preset
- */
+void Delay::switchInput(char newInput)
+{
+    char input = newInput;
+}
+void Delay::moveFeedbackPrePost(bool preWet)
+{
+    if(preWet)
+    {
+        //setFeedbackLevel(feedbackLevel-wetBalance);
+    }
+    else
+    {
+        //setFeedbackLevel(feedbackLevel);
+    }
+}
+float Delay::processInput()
+{
+    //writeToOutputBuffer();
+}
+
+
+
 struct Preset
 {
-    //Name
     std::string presetName;
-    //Category
     char presetCategory;
-    //Number of parameters
     int numOfParameters;
-    // Filetype
     char fileType;
-    //File size in mb
     float fileSize;
 
-    //Store preset
-    void storePreset(std::string presetName, char presetCategory, int numOfParameters, Oscillator thisWave, Filter thisFilt, Amplifier thisAmp, Delay thisDel);
-    //Recall preset
+    void storePreset(std::string presetName);
     void loadPreset(std::string whichPreset);
-    //Rename preset
     void renamePreset(std::string newName);
 };
-/*
-Thing 10) Synthesizer
-5 properties:
-    1) Filters
-    2) Oscillators
-    3) Amplifiers
-    4) Presets
-    5) Effects
-3 things it can do:
-    1) Play sound
-    2) Store preset
-    3) Modulate input
- */
+void Preset::storePreset(std::string presetName)
+{
+    //overWritePresetNamed(presetName);
+}
+void Preset::loadPreset(std::string whichPreset)
+{
+    presetName = whichPreset;
+}
+void Preset::renamePreset(std::string newName)
+{
+    presetName = newName;
+}
+
 struct Synthesizer
 {
-    //Oscillators
     Oscillator osc1;
-    //Filter
     Filter lowPass;
-    //Amplifier
     Amplifier tubeAmp;
-    //Delay
     Delay pingPong;
-    // Preset
     Preset midnightRunner;
 
     struct inputBus
     {   
-        //input gain LR in dB
         float inputLeftGainDb;
         float inputRightGainDb;
-        //input level LR in dB
         float outputLeftSignalDb;
         float outputRightSignalDb;
-        //tells whether input is summed to mono
         bool isMono;
 
-        //use input as modulation for a parameter
         void actAsCarrierOscillator(int sourceChannel, std::string targetParam);
-        //take stereo input and output mono, adjusting level
         float sumInputSignalToMono(float sourceChannelSignalL, 
         float sourceChannelSignalR, float attenuate);
-        //write input to buffer, adjusting level
         void readInputSignalStereo(int sourceChannelL, int sourceChannelR, float attenuate);
 
     };
 
-    //play sound
-    void makeNote(int noteNum, int velocity);
-    //store preset
+    void makeNote(int noteNum, int velocity, Oscillator thisOsc);
     void storePreset(std::string presetName);
-    //affect input
     void modulateInput(inputBus externalInstrument, std::string parameterName);
 };
+void Synthesizer::makeNote(int noteNum, int velocity, Oscillator thisOsc)
+{
+    thisOsc.semitone = noteNum;
+}
+void Synthesizer::storePreset(std::string presetName)
+{
+    std::string thisPresetsName = presetName;
+}
+void Synthesizer::modulateInput(inputBus externalInstrument, std::string parameterName)
+{
+    externalInstrument.outputLeftSignalDb += 40.5f;
+    externalInstrument.outputRightSignalDb += 40.5f;
+}
+void Synthesizer::inputBus::actAsCarrierOscillator(int sourceChannel, std::string targetParam)
+{
+    //sourceChannel = readValue(targetParam);
+}
+float Synthesizer::inputBus::sumInputSignalToMono(float sourceChannelSignalL, 
+float sourceChannelSignalR, float attenuate)
+{
+    if(isMono)
+    {
+        return inputLeftGainDb + inputRightGainDb;
+    }
+}
+void Synthesizer::inputBus::readInputSignalStereo(int sourceChannelL, int sourceChannelR, float attenuate)
+{
+    //writeToBuffer((sourceChannelL + sourceChannelR) * attenuate);
+}
+
 /*
  MAKE SURE YOU ARE NOT ON THE MASTER BRANCH
 
