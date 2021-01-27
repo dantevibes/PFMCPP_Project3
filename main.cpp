@@ -114,29 +114,45 @@ struct Person
     float hairLength;
     float GPA;
     unsigned int SATScore;
+    int distanceTraveled;
 
     void run(int howFast, bool startWithLeftFoot);
+    
+
+    struct Foot
+    {
+        int quickness;
+
+        void stepForward(int stepLength)
+        {
+            quickness = stepLength;
+        }
+    
+        int stepSize()
+        {
+            return quickness;
+        }
+    };
+
+    Foot leftFoot;
+    Foot rightFoot;
 };
 
 
-struct Foot
+void Person::run(int howFast, bool startWithLeftFoot)
 {
-    int sizeOfFoot;
-
-    void stepForward(int stepLength, int distanceTraveled);
-    int stepSize(Foot whichFoot);
-};
-
-void Foot::stepForward(int stepLength, int distanceTraveled)
-{
-    distanceTraveled += stepLength;
+    if(startWithLeftFoot)
+    {
+        leftFoot.stepForward(howFast+2);
+        rightFoot.stepForward(howFast);
+    }
+    else
+    {
+        rightFoot.stepForward(howFast);
+        leftFoot.stepForward(howFast);
+    }
+    distanceTraveled += leftFoot.stepSize() + rightFoot.stepSize();
 }
-
-int Foot::stepSize(Foot whichFoot)
-{
-    return whichFoot.sizeOfFoot;
-}
-
 
 
  /*
@@ -200,13 +216,7 @@ struct Octopus
 
 bool Octopus::catchAFish(int whichArm, int distanceToFish)
 {
-    bool fishWasCaught = false;
-    if (whichArm + distanceToFish < 10)
-    {
-        fishWasCaught = true;
-    }
-
-    return fishWasCaught;
+    return (whichArm + distanceToFish < 10);
 }
 void Octopus::changeColor(char newColor, char thisColor)
 {
@@ -236,9 +246,7 @@ struct Band
 void Band::playForAudience(char whichSong, int tempo, bool countOff)
 {
     if(countOff)
-    {
         tempo = 130;
-    }
     whichSong = 'V';
 }
 std::string Band::nameASong(std::string word1, std::string word2)
@@ -278,10 +286,8 @@ void EspressoMachine::heatWater(int waterLevel, int targetTempInF)
 }
 void EspressoMachine::pourCoffee(float pourTime)
 {
-    for(int i = 0; i < pourTime ; i++)
-    {
+    for(int i = 0; i < pourTime ; i++) 
         cupsOfWater -= 1;
-    }
 }
 void EspressoMachine::makeSoundWhenDone(int loudness)
 {
@@ -304,10 +310,8 @@ struct Airplane
 
 void Airplane::extendLandingGear(bool landingGearExtended)
 {
-    if(landingGearExtended == false)
-    {
+    if(landingGearExtended == false) 
         landingGearExtended = true;
-    }
 }
 void Airplane::changeEnginePower(float amountChanged, int whichEngine)
 {
@@ -317,12 +321,8 @@ void Airplane::changeEnginePower(float amountChanged, int whichEngine)
 bool Airplane::angleWingsForTakeoff(int wingAngleDegree)
 {
     wingAngleDegree += 3;
-    bool isFlying = false;
-    if( engineHorsePower > 2000)
-    {
-        isFlying = true;
-    }
-    return isFlying;
+
+    return (engineHorsePower > 2000);
 }
 
 
@@ -335,16 +335,16 @@ struct Oscillator
     float noiseLevel;
     int lfoAmount;
 
-    void outputSignal(char channel, int amplitude);
+    void outputSignal(char lfoChannel, int amplitude);
     void syncOscillator(Oscillator oscToSyncTo);
     void outputAsLFO(std::string targetParameter);
 };
 
-void Oscillator::outputSignal(char channel, int amplitude)
+void Oscillator::outputSignal(char lfoChannel, int amplitude)
 {
     for(int i = 0; i < 2; i++)
     {
-        channel = 'L';
+        waveform = lfoChannel;
         amplitude = 75 * i;
     }
 }
@@ -398,9 +398,12 @@ void Filter::filterSweep(int startFreq, int endFreq, float sweepTimeInMillis)
     for(float f = 0.0f; f < sweepTimeInMillis; f += 0.5f)
     {
         cutoffFreq = startFreq;
-        if(cutoffFreq < endFreq) cutoffFreq++;
 
-        else  cutoffFreq--;
+        if(cutoffFreq < endFreq) 
+            ++cutoffFreq;
+
+        else  
+            --cutoffFreq;
     } 
 }
 void Filter::LFO::changeWaveform(int nextWave)
@@ -423,18 +426,18 @@ struct Amplifier
     float driveLevel;
     int toneLevel;
     int waveshaperType;
-    float bassBoostLevel;
+    Filter outputFilter;
     float outputLevel;
 
     void divideSignalBy(float denominator);
-    void addDrive(float driveAmount, Filter inputFilter, Filter outputFilter);
+    void addDrive(float driveAmount, Filter inputFilter);
     void changeWaveshaperMode(int nextMode);
 };
 void Amplifier::divideSignalBy(float denominator)
 {
     outputLevel = outputLevel/denominator;
 }
-void Amplifier::addDrive(float driveAmount, Filter inputFilter, Filter outputFilter)
+void Amplifier::addDrive(float driveAmount, Filter inputFilter)
 {
     outputFilter.cutoffFreq = inputFilter.cutoffFreq;
     driveLevel += driveAmount;
@@ -466,13 +469,9 @@ void Delay::switchInput(char newInput)
 void Delay::moveFeedbackPrePost(bool preWet)
 {
     if(preWet)
-    {
-        feedbackLevel ++;
-    }
+        ++feedbackLevel;
     else
-    {
-        feedbackLevel --;
-    }
+        --feedbackLevel;
 }
 float Delay::processInput()
 {
