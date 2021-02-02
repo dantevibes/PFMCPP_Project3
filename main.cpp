@@ -86,11 +86,11 @@ struct Octopus
 {
     Octopus();
 
-    int numOfArms;
-    float inkAmount;
-    char color;
-    char shape;
-    float size;
+    int numOfArms{8};
+    float inkAmount{100.f};
+    char color{'R'};
+    char shape{'O'};
+    float size{5.f};
 
     bool catchAFish(int whichArm, int distanceToFish);
     void changeColor(char newColor, char thisColor);
@@ -99,11 +99,6 @@ struct Octopus
 
 Octopus::Octopus()
 {
-    numOfArms = 8;
-    inkAmount = 100.f;
-    color = 'R';
-    shape = 'O';
-    size = 24.5f;
 }
 
 bool Octopus::catchAFish(int whichArm, int distanceToFish)
@@ -127,11 +122,11 @@ struct Band
 {
     Band();
 
-    int numOfMembers;
-    char genre;
-    int albumsSold;
-    double budget;
-    int numOfSongs;
+    int numOfMembers = 2;
+    char genre = 'i';
+    int albumsSold = 0;
+    double budget = 1000.0;
+    int numOfSongs = 3;
 
     void playForAudience(char whichSong, int tempo, bool countOff);
     std::string nameASong(std::string word1, std::string word2);
@@ -140,11 +135,6 @@ struct Band
 
 Band::Band()
 {
-    numOfMembers = 4;
-    genre = 'I';
-    albumsSold = 0;
-    budget = 20.0;
-    numOfSongs = 3;
 }
 
 void Band::playForAudience(char whichSong, int tempo, bool countOff)
@@ -185,14 +175,13 @@ struct EspressoMachine
     void makeSoundWhenDone(int loudness);
 };
 
-EspressoMachine::EspressoMachine()
-{
-    cupsOfWater = 8.f;
-    coffeeType = 'd';
-    waterTempInF = 120;
-    tbspOfGrounds = 3.3f;
-    steamerPressure = 0;
-}
+EspressoMachine::EspressoMachine() : 
+    cupsOfWater(8.f), 
+    coffeeType('d'),
+    waterTempInF(120),
+    tbspOfGrounds(3.3f),
+    steamerPressure(0)
+{}
 
 void EspressoMachine::heatWater(int waterLevel, int targetTempInF)
 {
@@ -217,25 +206,18 @@ struct Airplane
 {
     Airplane();
 
-    int numOfCrew;
-    int numOfPassengers;
-    int maxCapacity;
-    float engineHorsePower;
-    int totalWeightInLbs;
+    int numOfCrew{4};
+    int numOfPassengers{100};
+    int maxCapacity{1500};
+    float engineHorsePower{0.f};
+    int totalWeightInLbs{50000};
 
     void extendLandingGear(bool landingGearExtended);
     void changeEnginePower(float amountChanged, int whichEngine);
     bool angleWingsForTakeoff(int wingAngleDegree);
 };
 
-Airplane::Airplane()
-{
-    numOfCrew = 4;
-    numOfPassengers = 200;
-    maxCapacity = 500;
-    engineHorsePower = 0.f;
-    totalWeightInLbs = 3000;
-}
+Airplane::Airplane(){}
 
 void Airplane::extendLandingGear(bool landingGearExtended)
 {
@@ -263,11 +245,11 @@ struct Oscillator
 {
     Oscillator();
 
-    int semitone;
-    char waveform;
-    int phaseDegree;
-    float noiseLevel;
-    float lfoAmount;
+    int semitone = 0;
+    char waveform = 'N';
+    int phaseDegree = 0;
+    float noiseLevel = -100.f;
+    float lfoAmount = 0.f;
 
     float outputLFOSignal(char lfoChannel, float amplitudeLevel);
     void syncOscillator(Oscillator oscToSyncTo);
@@ -275,13 +257,7 @@ struct Oscillator
 };
 
 Oscillator::Oscillator()
-{
-    semitone  = 0;
-    waveform = 'N';
-    phaseDegree = 0;
-    noiseLevel = -100.f;
-    lfoAmount = 0.f;
-}
+{}
 
 float Oscillator::outputLFOSignal(char lfoWave, float amplitudeLevel)
 {
@@ -307,19 +283,19 @@ struct Filter
 {
     Filter();
 
-    int cutoffFreq;
-    int resonance;
-    char filterType;
-    int envAmount;
-    int wet;
+    int cutoffFreq = 20000;
+    int resonance = 10;
+    char filterType = 'N';
+    int envAmount = 50;
+    int wet = 127;
 
     struct LFO
     {
-        float frequency;
-        int tempoMultiplier;
-        int waveform;
-        float waveformMorph;
-        bool bpmSync;
+        float frequency = 1.f;
+        int tempoMultiplier = 1;
+        int waveform = 0;
+        float waveformMorph = 0.5f;
+        bool bpmSync = false;
 
         void changeWaveform(int nextWave);
         void changeTempoMultiplier(int newValue);
@@ -332,13 +308,7 @@ struct Filter
 };
 
 Filter::Filter()
-{
-    cutoffFreq = 20000;
-    resonance = 10;
-    filterType = 'N';
-    envAmount = 50;
-    wet = 127;
-}
+{}
 
 void Filter::changeType(char nextType)
 {
@@ -381,11 +351,11 @@ struct Amplifier
 {
     Amplifier();
 
-    float driveLevel;
-    int toneLevel;
-    int waveshaperType;
+    float driveLevel = 1.f;
+    int toneLevel = 50;
+    int waveshaperType = 0;
     Filter outputFilter;
-    float outputLevel;
+    float outputLevel = 0.f;
 
     void divideSignalBy(float denominator);
     void addDrive(float driveAmount, Filter inputFilter);
@@ -394,17 +364,11 @@ struct Amplifier
 
 Amplifier::Amplifier()
 {
-    driveLevel = 1.f;
-    toneLevel = 50;
-    waveshaperType = 0;
-
     outputFilter.cutoffFreq = 10000;
     outputFilter.resonance = 3;
     outputFilter.filterType = 'L';
     outputFilter.envAmount = 90;
     outputFilter.wet = 33;
-    
-    outputLevel = 0.f;
 }
 
 void Amplifier::divideSignalBy(float denominator)
@@ -426,11 +390,11 @@ struct Delay
 {
     Delay();
 
-    int type;
-    int delayTimeMs;
-    float feedbackLevel;
-    float toneLevel;
-    int wetBalance;
+    int type{0};
+    int delayTimeMs{150};
+    float feedbackLevel{0.f};
+    float toneLevel{50.f};
+    int wetBalance{50};
 
     void switchInput(char newInput);
     void moveFeedbackPrePost(bool preWet);
@@ -438,13 +402,7 @@ struct Delay
 };
 
 Delay::Delay()
-{
-    type = 0;
-    delayTimeMs = 250;
-    feedbackLevel = 0.f;
-    toneLevel = 50.f;
-    wetBalance = 50;
-}
+{}
 
 void Delay::switchInput(char newInput)
 {
@@ -469,11 +427,11 @@ struct Preset
 {
     Preset();
 
-    std::string presetName;
-    char presetCategory;
-    int numOfParameters;
-    char fileType;
-    float fileSize;
+    std::string presetName = "User_Preset";
+    char presetCategory = 'U';
+    int numOfParameters = 10;
+    char fileType = 'p';
+    float fileSize = 3.4f;
 
     void storePreset(int parameters);
     void loadPreset(std::string whichPreset);
@@ -481,13 +439,7 @@ struct Preset
 };
 
 Preset::Preset()
-{
-    presetName = "User_Preset";
-    presetCategory = 'U';
-    numOfParameters = 10;
-    fileType = 'p';
-    fileSize = 3.4f;
-}
+{}
 
 void Preset::storePreset(int parameters)
 {
@@ -538,14 +490,13 @@ struct Synthesizer
     void modulateInput(InputBus externalInstrument, std::string parameterName);
 };
 
-Synthesizer::InputBus::InputBus()
-{
-    inputLeftGainDb = -60.f;
-    inputRightGainDb = -60.f;
-    outputLeftSignalDb = -60.f;
-    outputRightSignalDb = -60.f;
-    isMono = true;
-}
+Synthesizer::InputBus::InputBus() :
+    inputLeftGainDb(-60.f),
+    inputRightGainDb(-60.f),
+    outputLeftSignalDb(-60.f),
+    outputRightSignalDb(-60.f),
+    isMono(true)
+{}
 
 Synthesizer::Synthesizer() //I can't use these from the main()...why not?
 {
@@ -610,6 +561,9 @@ void Synthesizer::InputBus::readInputSignalStereo(int sourceChannelL, int source
 #include <iostream>
 int main()
 {
+    CarWash Stans;
+    std::cout << Stans.numVacuumCleaners << std::endl;
+
     Example::main();
     Octopus greatPacificOctopus;
     std::cout <<  greatPacificOctopus.catchAFish(7,22) << std::endl;
