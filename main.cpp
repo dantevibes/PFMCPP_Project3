@@ -86,11 +86,11 @@ struct Octopus
 {
     Octopus();
 
-    int numOfArms{8};
-    float inkAmount{100.f};
-    char color{'R'};
-    char shape{'O'};
-    float size{5.f};
+    int numOfArms;
+    float inkAmount;
+    char color;
+    char shape;
+    float size;
 
     bool catchAFish(int whichArm, int distanceToFish);
     void changeColor(char newColor, char thisColor);
@@ -99,21 +99,32 @@ struct Octopus
 
 Octopus::Octopus()
 {
+    numOfArms = 8;
+    inkAmount = 100.f;
+    color = 'R';
+    shape = 'O';
+    size = 24.5f;
 }
 
 bool Octopus::catchAFish(int whichArm, int distanceToFish)
 {
     return (whichArm + distanceToFish < 10);
 }
+
 void
  Octopus::changeColor(char newColor, char thisColor)
 {
     thisColor = newColor;
 }
+
 void Octopus::squirtInk(float inkSize, char escapeDirection)
 {
+    std::cout << "Ink amount before squirt: " << inkAmount <<std::endl;
+    
     inkAmount -= inkSize;
     escapeDirection = 'W';
+
+    std::cout << "Ink amount after squirt: " << inkAmount <<std::endl;
 }
 
 
@@ -122,27 +133,44 @@ struct Band
 {
     Band();
 
-    int numOfMembers = 2;
-    char genre = 'i';
-    int albumsSold = 0;
-    double budget = 1000.0;
-    int numOfSongs = 3;
+    int numOfMembers;
+    char genre;
+    int albumsSold;
+    double budget;
+    int numOfSongs;
 
-    void playForAudience(char whichSong, int tempo, bool countOff);
+    void performanceStunt(int crowdSize, bool countOff);
     std::string nameASong(std::string word1, std::string word2);
     void postOnInsta(int numOfPics, char filter, std::string postText);
 };
 
 Band::Band()
 {
+    numOfMembers = 4;
+    genre = 'I';
+    albumsSold = 0;
+    budget = 200.0;
+    numOfSongs = 3;
 }
 
-void Band::playForAudience(char whichSong, int tempo, bool countOff)
+void Band::performanceStunt(int crowdSize, bool pyrotechnics)
 {
-    if(countOff)
-        tempo = 130;
-    whichSong = 'V';
-    std::cout << "Thank you and have a great night!" << std::endl;
+    std::cout << "budget before stunt: $" << budget << std::endl;
+    
+    if(pyrotechnics)
+    {
+        if(crowdSize > 5000)
+        {
+            budget *= 101.5;
+            albumsSold += 2000;
+        }
+        else
+        {
+            budget *= .43;
+            albumsSold += 200;
+        }
+    }
+    std::cout << "budget after stunt: $" << budget << std::endl;
 }
 std::string Band::nameASong(std::string word1, std::string word2)
 {   
@@ -175,13 +203,14 @@ struct EspressoMachine
     void makeSoundWhenDone(int loudness);
 };
 
-EspressoMachine::EspressoMachine() : 
-    cupsOfWater(8.f), 
-    coffeeType('d'),
-    waterTempInF(120),
-    tbspOfGrounds(3.3f),
-    steamerPressure(0)
-{}
+EspressoMachine::EspressoMachine()
+{
+    cupsOfWater = 8.f;
+    coffeeType = 'd';
+    waterTempInF = 120;
+    tbspOfGrounds = 3.3f;
+    steamerPressure = 0;
+}
 
 void EspressoMachine::heatWater(int waterLevel, int targetTempInF)
 {
@@ -190,11 +219,15 @@ void EspressoMachine::heatWater(int waterLevel, int targetTempInF)
         waterTempInF += 10/waterLevel;
     }
 }
+
 void EspressoMachine::pourCoffee(float pourTime)
 {
+    std::cout << "Water level before pour: " << cupsOfWater << std::endl;
     for(int i = 0; i < pourTime ; i++) 
         cupsOfWater -= 1;
+    std::cout << "Water level after pour: "  << cupsOfWater << std::endl;
 }
+
 void EspressoMachine::makeSoundWhenDone(int coolTemp)
 {
     waterTempInF = coolTemp;
@@ -206,18 +239,25 @@ struct Airplane
 {
     Airplane();
 
-    int numOfCrew{4};
-    int numOfPassengers{100};
-    int maxCapacity{1500};
-    float engineHorsePower{0.f};
-    int totalWeightInLbs{50000};
+    int numOfCrew;
+    int numOfPassengers;
+    int maxCapacity;
+    float engineHorsePower;
+    int totalWeightInLbs;
 
     void extendLandingGear(bool landingGearExtended);
     void changeEnginePower(float amountChanged, int whichEngine);
     bool angleWingsForTakeoff(int wingAngleDegree);
 };
 
-Airplane::Airplane(){}
+Airplane::Airplane()
+{
+    numOfCrew = 4;
+    numOfPassengers = 200;
+    maxCapacity = 500;
+    engineHorsePower = 0.f;
+    totalWeightInLbs = 3000;
+}
 
 void Airplane::extendLandingGear(bool landingGearExtended)
 {
@@ -227,11 +267,14 @@ void Airplane::extendLandingGear(bool landingGearExtended)
         std::cout << "Ready for landing." << std::endl;
     }
 }
+
 void Airplane::changeEnginePower(float amountChanged, int whichEngine)
 {
+    std::cout << "Engine power of engine " << whichEngine << " before: " << engineHorsePower << std::endl;
     engineHorsePower += amountChanged;
-    whichEngine = 2;
+    std::cout << "Engine power of engine " << whichEngine << " after: " << engineHorsePower << std::endl;
 }
+
 bool Airplane::angleWingsForTakeoff(int wingAngleDegree)
 {
     wingAngleDegree += 3;
@@ -245,11 +288,11 @@ struct Oscillator
 {
     Oscillator();
 
-    int semitone = 0;
-    char waveform = 'N';
-    int phaseDegree = 0;
-    float noiseLevel = -100.f;
-    float lfoAmount = 0.f;
+    int semitone;
+    char waveform;
+    int phaseDegree;
+    float noiseLevel;
+    float lfoAmount;
 
     float outputLFOSignal(char lfoChannel, float amplitudeLevel);
     void syncOscillator(Oscillator oscToSyncTo);
@@ -257,10 +300,18 @@ struct Oscillator
 };
 
 Oscillator::Oscillator()
-{}
+{
+    semitone  = 0;
+    waveform = 'N';
+    phaseDegree = 0;
+    noiseLevel = -100.f;
+    lfoAmount = 0.f;
+}
 
 float Oscillator::outputLFOSignal(char lfoWave, float amplitudeLevel)
 {
+    std::cout << "LFO Amnt before: " << lfoAmount << std::endl;
+
     for(int i = 0; i < 2; ++i )
     {
         waveform = lfoWave;
@@ -269,10 +320,12 @@ float Oscillator::outputLFOSignal(char lfoWave, float amplitudeLevel)
 
     return amplitudeLevel;
 }
+
 void Oscillator::syncOscillator(Oscillator oscToSyncTo)
 {
     phaseDegree = oscToSyncTo.phaseDegree;
 }
+
 void Oscillator::outputAsLFO(std::string targetParameter)
 {
     targetParameter = "LFO output target";
@@ -283,19 +336,19 @@ struct Filter
 {
     Filter();
 
-    int cutoffFreq = 20000;
-    int resonance = 10;
-    char filterType = 'N';
-    int envAmount = 50;
-    int wet = 127;
+    int cutoffFreq;
+    int resonance;
+    char filterType;
+    int envAmount;
+    int wet;
 
     struct LFO
     {
-        float frequency = 1.f;
-        int tempoMultiplier = 1;
-        int waveform = 0;
-        float waveformMorph = 0.5f;
-        bool bpmSync = false;
+        float frequency;
+        int tempoMultiplier;
+        int waveform;
+        float waveformMorph;
+        bool bpmSync;
 
         void changeWaveform(int nextWave);
         void changeTempoMultiplier(int newValue);
@@ -308,17 +361,25 @@ struct Filter
 };
 
 Filter::Filter()
-{}
+{
+    cutoffFreq = 20000;
+    resonance = 10;
+    filterType = 'N';
+    envAmount = 50;
+    wet = 127;
+}
 
 void Filter::changeType(char nextType)
 {
     filterType = nextType;
 }
+
 void Filter::switchInput(int newInput)
 {
     newInput += 1;
     if(newInput > 5) newInput = 0;
 }
+
 void Filter::filterSweep(int startFreq, int endFreq, float sweepTimeInMillis)
 {
     cutoffFreq = startFreq;
@@ -331,15 +392,20 @@ void Filter::filterSweep(int startFreq, int endFreq, float sweepTimeInMillis)
         else  
             --cutoffFreq;
     } 
+
+    std::cout<< "Cutoff Freq is at " << cutoffFreq << std::endl;
 }
+
 void Filter::LFO::changeWaveform(int nextWave)
 {
     waveform = nextWave;
 }
+
 void Filter::LFO::changeTempoMultiplier(int newValue)
 {
     tempoMultiplier = newValue;
 }
+
 void Filter::LFO::syncToOscillator(Oscillator syncTo, float warpAmount)
 {
     frequency = syncTo.lfoAmount;
@@ -351,35 +417,47 @@ struct Amplifier
 {
     Amplifier();
 
-    float driveLevel = 1.f;
-    int toneLevel = 50;
-    int waveshaperType = 0;
+    float driveLevel;
+    int toneLevel;
+    int waveshaperType;
     Filter outputFilter;
-    float outputLevel = 0.f;
+    float outputLevel;
 
     void divideSignalBy(float denominator);
-    void addDrive(float driveAmount, Filter inputFilter);
+    void addFilteredDrive(float driveAmount, Filter inputFilter);
     void changeWaveshaperMode(int nextMode);
 };
 
 Amplifier::Amplifier()
 {
+    driveLevel = 1.f;
+    toneLevel = 50;
+    waveshaperType = 0;
+
     outputFilter.cutoffFreq = 10000;
     outputFilter.resonance = 3;
     outputFilter.filterType = 'L';
     outputFilter.envAmount = 90;
     outputFilter.wet = 33;
+    
+    outputLevel = 0.f;
 }
 
 void Amplifier::divideSignalBy(float denominator)
 {
     outputLevel = outputLevel/denominator;
 }
-void Amplifier::addDrive(float driveAmount, Filter inputFilter)
+
+void Amplifier::addFilteredDrive(float driveAmount, Filter inputFilter)
 {
+    std::cout<< "OutputFilter's cutoff Freq is: " << outputFilter.cutoffFreq << std::endl;
+
     outputFilter.cutoffFreq = inputFilter.cutoffFreq;
     driveLevel += driveAmount;
+
+    std::cout<< "outputFilter's cutoff Freq changed to: " << outputFilter.cutoffFreq << std::endl;
 }
+
 void Amplifier::changeWaveshaperMode(int nextMode)
 {
     waveshaperType = nextMode;
@@ -390,30 +468,38 @@ struct Delay
 {
     Delay();
 
-    int type{0};
-    int delayTimeMs{150};
-    float feedbackLevel{0.f};
-    float toneLevel{50.f};
-    int wetBalance{50};
+    int type;
+    int delayTimeMs;
+    float feedbackLevel;
+    float toneLevel;
+    int wetBalance;
 
     void switchInput(char newInput);
-    void moveFeedbackPrePost(bool preWet);
+    void adjustFeedbackLevel(bool preWet);
     float processInput();
 };
 
 Delay::Delay()
-{}
+{
+    type = 0;
+    delayTimeMs = 250;
+    feedbackLevel = 0.f;
+    toneLevel = 50.f;
+    wetBalance = 50;
+}
 
 void Delay::switchInput(char newInput)
 {
     newInput = 'C';
 }
-void Delay::moveFeedbackPrePost(bool preWet)
+void Delay::adjustFeedbackLevel(bool preWet)
 {
     if(preWet)
         ++feedbackLevel;
     else
         --feedbackLevel;
+
+    std::cout << "Delay feedback level is: " << feedbackLevel << std::endl;
 }
 float Delay::processInput()
 {
@@ -427,11 +513,11 @@ struct Preset
 {
     Preset();
 
-    std::string presetName = "User_Preset";
-    char presetCategory = 'U';
-    int numOfParameters = 10;
-    char fileType = 'p';
-    float fileSize = 3.4f;
+    std::string presetName;
+    char presetCategory;
+    int numOfParameters;
+    char fileType;
+    float fileSize;
 
     void storePreset(int parameters);
     void loadPreset(std::string whichPreset);
@@ -439,11 +525,18 @@ struct Preset
 };
 
 Preset::Preset()
-{}
+{
+    presetName = "User_Preset";
+    presetCategory = 'U';
+    numOfParameters = 10;
+    fileType = 'p';
+    fileSize = 3.4f;
+}
 
 void Preset::storePreset(int parameters)
 {
     fileSize += numOfParameters * parameters;
+    std::cout << presetName << " fileSize is: " << fileSize << std::endl;
 }
 void Preset::loadPreset(std::string whichPreset)
 {
@@ -490,13 +583,14 @@ struct Synthesizer
     void modulateInput(InputBus externalInstrument, std::string parameterName);
 };
 
-Synthesizer::InputBus::InputBus() :
-    inputLeftGainDb(-60.f),
-    inputRightGainDb(-60.f),
-    outputLeftSignalDb(-60.f),
-    outputRightSignalDb(-60.f),
-    isMono(true)
-{}
+Synthesizer::InputBus::InputBus()
+{
+    inputLeftGainDb = -60.f;
+    inputRightGainDb = -60.f;
+    outputLeftSignalDb = -60.f;
+    outputRightSignalDb = -60.f;
+    isMono = true;
+}
 
 Synthesizer::Synthesizer() //I can't use these from the main()...why not?
 {
@@ -561,19 +655,15 @@ void Synthesizer::InputBus::readInputSignalStereo(int sourceChannelL, int source
 #include <iostream>
 int main()
 {
-    CarWash Stans;
-    std::cout << Stans.numVacuumCleaners << std::endl;
-
     Example::main();
     Octopus greatPacificOctopus;
     std::cout <<  greatPacificOctopus.catchAFish(7,22) << std::endl;
     
     Octopus muddyDesertOctopus;
     muddyDesertOctopus.squirtInk(33.33f, 'E');
-    std::cout << muddyDesertOctopus.inkAmount <<std::endl;
 
     Band theCrazyTrain;
-    theCrazyTrain.playForAudience( 'X' , 210, false );
+    theCrazyTrain.performanceStunt( 1000, true );
     theCrazyTrain.postOnInsta(4, 'h', "std::string postText");
 
     EspressoMachine truePour;
@@ -583,33 +673,30 @@ int main()
     
     Airplane tourismForTots;
     tourismForTots.extendLandingGear(false);
-    tourismForTots.changeEnginePower(-10.15f, 3);
-    std::cout << tourismForTots.engineHorsePower << std::endl;
+    tourismForTots.
+    changeEnginePower(1000.15f, 3);
+    tourismForTots.changeEnginePower(-100.15f, 3);
+
 
     Oscillator bigSaw;
-    std::cout << "bigSaw LFO Amnt before: " << bigSaw.lfoAmount << std::endl;
     bigSaw.lfoAmount = bigSaw.outputLFOSignal('F', 25.f);
     std::cout << "bigSaw LFO Amnt after: " << bigSaw.lfoAmount << std::endl;
 
     Filter highPassButter;
     highPassButter.changeType('H');
     highPassButter.filterSweep(30, 2000, 2.2f);
-    std::cout<< "highPassButter Cutoff Freq is: " << highPassButter.cutoffFreq << std::endl;
 
     Amplifier fatStackMcGee;
-    std::cout<< "fatStackMcGee outputFilter's cutoff Freq is: " << fatStackMcGee.outputFilter.cutoffFreq << std::endl;
-    fatStackMcGee.addDrive(1.2f, highPassButter);
-    std::cout<< "fatStackMcGee outputFilter's cutoff Freq changed to: " << fatStackMcGee.outputFilter.cutoffFreq << std::endl;
+    fatStackMcGee.addFilteredDrive(1.2f, highPassButter);
+    
 
     Delay warbledPingPong;
-    warbledPingPong.moveFeedbackPrePost(true);
-    std::cout << "WarbleDelay's feedback level is: " << warbledPingPong.feedbackLevel << std::endl;
+    warbledPingPong.adjustFeedbackLevel(true);
 
 
     Preset distorshunPhace;
     distorshunPhace.renamePreset("distorshunPhace");
     distorshunPhace.storePreset(24);
-    std::cout << distorshunPhace.presetName << " fileSize is: " << distorshunPhace.fileSize << std::endl;
 
 
     Synthesizer octoScreamer;
