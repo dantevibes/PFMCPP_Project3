@@ -110,15 +110,21 @@ bool Octopus::catchAFish(int whichArm, int distanceToFish)
 {
     return (whichArm + distanceToFish < 10);
 }
+
 void
  Octopus::changeColor(char newColor, char thisColor)
 {
     thisColor = newColor;
 }
+
 void Octopus::squirtInk(float inkSize, char escapeDirection)
 {
+    std::cout << "Ink amount before squirt: " << inkAmount <<std::endl;
+    
     inkAmount -= inkSize;
     escapeDirection = 'W';
+
+    std::cout << "Ink amount after squirt: " << inkAmount <<std::endl;
 }
 
 
@@ -133,7 +139,7 @@ struct Band
     double budget;
     int numOfSongs;
 
-    void playForAudience(char whichSong, int tempo, bool countOff);
+    void performanceStunt(int crowdSize, bool countOff);
     std::string nameASong(std::string word1, std::string word2);
     void postOnInsta(int numOfPics, char filter, std::string postText);
 };
@@ -143,16 +149,28 @@ Band::Band()
     numOfMembers = 4;
     genre = 'I';
     albumsSold = 0;
-    budget = 20.0;
+    budget = 200.0;
     numOfSongs = 3;
 }
 
-void Band::playForAudience(char whichSong, int tempo, bool countOff)
+void Band::performanceStunt(int crowdSize, bool pyrotechnics)
 {
-    if(countOff)
-        tempo = 130;
-    whichSong = 'V';
-    std::cout << "Thank you and have a great night!" << std::endl;
+    std::cout << "budget before stunt: $" << budget << std::endl;
+    
+    if(pyrotechnics)
+    {
+        if(crowdSize > 5000)
+        {
+            budget *= 101.5;
+            albumsSold += 2000;
+        }
+        else
+        {
+            budget *= .43;
+            albumsSold += 200;
+        }
+    }
+    std::cout << "budget after stunt: $" << budget << std::endl;
 }
 std::string Band::nameASong(std::string word1, std::string word2)
 {   
@@ -201,11 +219,15 @@ void EspressoMachine::heatWater(int waterLevel, int targetTempInF)
         waterTempInF += 10/waterLevel;
     }
 }
+
 void EspressoMachine::pourCoffee(float pourTime)
 {
+    std::cout << "Water level before pour: " << cupsOfWater << std::endl;
     for(int i = 0; i < pourTime ; i++) 
         cupsOfWater -= 1;
+    std::cout << "Water level after pour: "  << cupsOfWater << std::endl;
 }
+
 void EspressoMachine::makeSoundWhenDone(int coolTemp)
 {
     waterTempInF = coolTemp;
@@ -245,11 +267,14 @@ void Airplane::extendLandingGear(bool landingGearExtended)
         std::cout << "Ready for landing." << std::endl;
     }
 }
+
 void Airplane::changeEnginePower(float amountChanged, int whichEngine)
 {
+    std::cout << "Engine power of engine " << whichEngine << " before: " << engineHorsePower << std::endl;
     engineHorsePower += amountChanged;
-    whichEngine = 2;
+    std::cout << "Engine power of engine " << whichEngine << " after: " << engineHorsePower << std::endl;
 }
+
 bool Airplane::angleWingsForTakeoff(int wingAngleDegree)
 {
     wingAngleDegree += 3;
@@ -285,6 +310,8 @@ Oscillator::Oscillator()
 
 float Oscillator::outputLFOSignal(char lfoWave, float amplitudeLevel)
 {
+    std::cout << "LFO Amnt before: " << lfoAmount << std::endl;
+
     for(int i = 0; i < 2; ++i )
     {
         waveform = lfoWave;
@@ -293,10 +320,12 @@ float Oscillator::outputLFOSignal(char lfoWave, float amplitudeLevel)
 
     return amplitudeLevel;
 }
+
 void Oscillator::syncOscillator(Oscillator oscToSyncTo)
 {
     phaseDegree = oscToSyncTo.phaseDegree;
 }
+
 void Oscillator::outputAsLFO(std::string targetParameter)
 {
     targetParameter = "LFO output target";
@@ -344,11 +373,13 @@ void Filter::changeType(char nextType)
 {
     filterType = nextType;
 }
+
 void Filter::switchInput(int newInput)
 {
     newInput += 1;
     if(newInput > 5) newInput = 0;
 }
+
 void Filter::filterSweep(int startFreq, int endFreq, float sweepTimeInMillis)
 {
     cutoffFreq = startFreq;
@@ -361,15 +392,20 @@ void Filter::filterSweep(int startFreq, int endFreq, float sweepTimeInMillis)
         else  
             --cutoffFreq;
     } 
+
+    std::cout<< "Cutoff Freq is at " << cutoffFreq << std::endl;
 }
+
 void Filter::LFO::changeWaveform(int nextWave)
 {
     waveform = nextWave;
 }
+
 void Filter::LFO::changeTempoMultiplier(int newValue)
 {
     tempoMultiplier = newValue;
 }
+
 void Filter::LFO::syncToOscillator(Oscillator syncTo, float warpAmount)
 {
     frequency = syncTo.lfoAmount;
@@ -388,7 +424,7 @@ struct Amplifier
     float outputLevel;
 
     void divideSignalBy(float denominator);
-    void addDrive(float driveAmount, Filter inputFilter);
+    void addFilteredDrive(float driveAmount, Filter inputFilter);
     void changeWaveshaperMode(int nextMode);
 };
 
@@ -411,11 +447,17 @@ void Amplifier::divideSignalBy(float denominator)
 {
     outputLevel = outputLevel/denominator;
 }
-void Amplifier::addDrive(float driveAmount, Filter inputFilter)
+
+void Amplifier::addFilteredDrive(float driveAmount, Filter inputFilter)
 {
+    std::cout<< "OutputFilter's cutoff Freq is: " << outputFilter.cutoffFreq << std::endl;
+
     outputFilter.cutoffFreq = inputFilter.cutoffFreq;
     driveLevel += driveAmount;
+
+    std::cout<< "outputFilter's cutoff Freq changed to: " << outputFilter.cutoffFreq << std::endl;
 }
+
 void Amplifier::changeWaveshaperMode(int nextMode)
 {
     waveshaperType = nextMode;
@@ -433,7 +475,7 @@ struct Delay
     int wetBalance;
 
     void switchInput(char newInput);
-    void moveFeedbackPrePost(bool preWet);
+    void adjustFeedbackLevel(bool preWet);
     float processInput();
 };
 
@@ -450,12 +492,14 @@ void Delay::switchInput(char newInput)
 {
     newInput = 'C';
 }
-void Delay::moveFeedbackPrePost(bool preWet)
+void Delay::adjustFeedbackLevel(bool preWet)
 {
     if(preWet)
         ++feedbackLevel;
     else
         --feedbackLevel;
+
+    std::cout << "Delay feedback level is: " << feedbackLevel << std::endl;
 }
 float Delay::processInput()
 {
@@ -492,6 +536,7 @@ Preset::Preset()
 void Preset::storePreset(int parameters)
 {
     fileSize += numOfParameters * parameters;
+    std::cout << presetName << " fileSize is: " << fileSize << std::endl;
 }
 void Preset::loadPreset(std::string whichPreset)
 {
@@ -616,10 +661,9 @@ int main()
     
     Octopus muddyDesertOctopus;
     muddyDesertOctopus.squirtInk(33.33f, 'E');
-    std::cout << muddyDesertOctopus.inkAmount <<std::endl;
 
     Band theCrazyTrain;
-    theCrazyTrain.playForAudience( 'X' , 210, false );
+    theCrazyTrain.performanceStunt( 1000, true );
     theCrazyTrain.postOnInsta(4, 'h', "std::string postText");
 
     EspressoMachine truePour;
@@ -629,33 +673,30 @@ int main()
     
     Airplane tourismForTots;
     tourismForTots.extendLandingGear(false);
-    tourismForTots.changeEnginePower(-10.15f, 3);
-    std::cout << tourismForTots.engineHorsePower << std::endl;
+    tourismForTots.
+    changeEnginePower(1000.15f, 3);
+    tourismForTots.changeEnginePower(-100.15f, 3);
+
 
     Oscillator bigSaw;
-    std::cout << "bigSaw LFO Amnt before: " << bigSaw.lfoAmount << std::endl;
     bigSaw.lfoAmount = bigSaw.outputLFOSignal('F', 25.f);
     std::cout << "bigSaw LFO Amnt after: " << bigSaw.lfoAmount << std::endl;
 
     Filter highPassButter;
     highPassButter.changeType('H');
     highPassButter.filterSweep(30, 2000, 2.2f);
-    std::cout<< "highPassButter Cutoff Freq is: " << highPassButter.cutoffFreq << std::endl;
 
     Amplifier fatStackMcGee;
-    std::cout<< "fatStackMcGee outputFilter's cutoff Freq is: " << fatStackMcGee.outputFilter.cutoffFreq << std::endl;
-    fatStackMcGee.addDrive(1.2f, highPassButter);
-    std::cout<< "fatStackMcGee outputFilter's cutoff Freq changed to: " << fatStackMcGee.outputFilter.cutoffFreq << std::endl;
+    fatStackMcGee.addFilteredDrive(1.2f, highPassButter);
+    
 
     Delay warbledPingPong;
-    warbledPingPong.moveFeedbackPrePost(true);
-    std::cout << "WarbleDelay's feedback level is: " << warbledPingPong.feedbackLevel << std::endl;
+    warbledPingPong.adjustFeedbackLevel(true);
 
 
     Preset distorshunPhace;
     distorshunPhace.renamePreset("distorshunPhace");
     distorshunPhace.storePreset(24);
-    std::cout << distorshunPhace.presetName << " fileSize is: " << distorshunPhace.fileSize << std::endl;
 
 
     Synthesizer octoScreamer;
