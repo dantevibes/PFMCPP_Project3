@@ -588,7 +588,7 @@ struct Delay
     void switchInput(char newInput);
     void adjustPanAmount(bool preWet);
     float processInput();
-    void levelOfFeedback(int numOfRepeats);
+    int numOfFeedbacks(int numOfRepeats);
 };
 
 Delay::Delay()
@@ -621,15 +621,19 @@ float Delay::processInput()
     return panLevel;
 }
 
-void Delay::levelOfFeedback(int numOfRepeats)
+int Delay::numOfFeedbacks(int numOfRepeats)
 {
     float delayLevel = wetBalance;
 
     for(int i = 0; i < numOfRepeats ; ++i)
     {
-        std::cout<< "repeat at " << i << " is " << delayLevel <<std::endl;
+        //std::cout<< "repeat at " << i << " is " << delayLevel <<std::endl;
         delayLevel = delayLevel/feedbackLevel;
+
+        if(delayLevel < .01f)
+            return i;
     }
+    return numOfRepeats;
 } 
 
 
@@ -862,7 +866,7 @@ int main()
 
     Delay warbledPingPong;
     warbledPingPong.feedbackLevel = 3.3f;
-    warbledPingPong.levelOfFeedback(9);
+    std::cout<< "Delay's last repeat is # "<< warbledPingPong.numOfFeedbacks(9)<< std::endl;
 
 
     Preset distorshunPhace;
