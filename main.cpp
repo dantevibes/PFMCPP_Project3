@@ -27,6 +27,7 @@ Create a branch named Part5
  */
 
 #include <iostream>
+#include <cmath>
 namespace Example 
 {
 struct Bar 
@@ -125,6 +126,7 @@ struct Octopus
     bool catchAFish(int whichArm, int distanceToFish);
     void changeColor(char newColor, char thisColor);
     void squirtInk(float inkSize, char escapeDirection);
+    float huntForFood(int howHungry);
 };
 
 Octopus::Octopus()
@@ -157,6 +159,20 @@ void Octopus::squirtInk(float inkSize, char escapeDirection)
     std::cout << "Ink amount after squirt: " << inkAmount <<std::endl;
 }
 
+float Octopus::huntForFood(int howHungry)
+{
+    for(int i = 0 ; i < howHungry ; ++i )
+    {
+        catchAFish(i, i) ? size += 2.2f : size -= 1.1f ;
+        if(size < 0.f)
+        {
+            std::cout << "Octopus has died" << std::endl;
+            return 0.f;
+        } 
+    }
+    return size;
+}
+
 
 
 struct Band
@@ -172,6 +188,7 @@ struct Band
     void performanceStunt(int crowdSize, bool countOff);
     std::string nameASong(std::string word1, std::string word2);
     void postOnInsta(int numOfPics, char filter, std::string postText);
+    double goOnTour(int numOfDestinations, double audience, bool isGrowing);
 };
 
 Band::Band()
@@ -202,6 +219,7 @@ void Band::performanceStunt(int crowdSize, bool pyrotechnics)
     }
     std::cout << "budget after stunt: $" << budget << std::endl;
 }
+
 std::string Band::nameASong(std::string word1, std::string word2)
 {   
     std::string songTitle = word1 + word2;
@@ -213,7 +231,21 @@ void Band::postOnInsta(int numOfPics, char filter, std::string postText)
     numOfPics = 5;
     filter = 'N';
     postText = "Had an awesome time at Club Buddhabump last nite!";
-    std::cout << postText << std::endl;;
+    std::cout << "Insta text: " << postText << std::endl;
+}
+
+double Band::goOnTour(int numOfDestinations, double audience, bool isGrowing)
+{
+    numOfSongs = 15;
+    budget = 5000.0;
+    for(int i = 0 ; i < numOfDestinations ; ++i )
+    {
+        (isGrowing) ? audience *= 2.22 : audience /= 2.22;
+        albumsSold += audience/5;
+        budget += audience;
+        budget -= 1000.0;
+    }
+    return budget;
 }
 
 
@@ -300,6 +332,8 @@ void Airplane::extendLandingGear(bool landingGearExtended)
 
 void Airplane::changeEnginePower(float amountChanged, int whichEngine)
 {
+    //For(i ; i < target horsepower ; ++i) {add horsepower}
+
     std::cout << "Engine power of engine " << whichEngine << " before: " << engineHorsePower << std::endl;
     engineHorsePower += amountChanged;
     std::cout << "Engine power of engine " << whichEngine << " after: " << engineHorsePower << std::endl;
@@ -320,20 +354,21 @@ struct Oscillator
 
     int semitone;
     char waveform;
-    int phaseDegree;
+    float phaseIndex;
     float noiseLevel;
     float lfoAmount;
 
     float outputLFOSignal(char lfoChannel, float amplitudeLevel);
     void syncOscillator(Oscillator oscToSyncTo);
-    void outputAsLFO(std::string targetParameter);
+    int nextSamp(int freq, int phase, char whichWave);
+    void outputSignal(int frequency, int bufferSize);
 };
 
 Oscillator::Oscillator()
 {
     semitone  = 0;
     waveform = 'N';
-    phaseDegree = 0;
+    phaseIndex = 0.f;
     noiseLevel = -100.f;
     lfoAmount = 0.f;
 }
@@ -353,12 +388,27 @@ float Oscillator::outputLFOSignal(char lfoWave, float amplitudeLevel)
 
 void Oscillator::syncOscillator(Oscillator oscToSyncTo)
 {
-    phaseDegree = oscToSyncTo.phaseDegree;
+    phaseIndex = oscToSyncTo.phaseIndex;
 }
 
-void Oscillator::outputAsLFO(std::string targetParameter)
+int Oscillator::nextSamp(int freq, int phase, char whichWave)
 {
-    targetParameter = "LFO output target";
+    int sampValue = 0;
+    if(whichWave == 'N')
+    {
+        sampValue = freq * (100 - (phase % 200));
+    }
+    return sampValue;
+}
+
+void Oscillator::outputSignal(int frequency, int bufferSize)
+{
+    std::cout<< "Value of sample at " ;
+    for (int bufferSample = 0; bufferSample < bufferSize; ++bufferSample)
+    {
+        std::cout<< bufferSample << " = " << nextSamp(frequency, bufferSample, waveform) << ", ";
+    }
+    std::cout<< "buffer write done" << std::endl;
 }
 
 
@@ -416,11 +466,17 @@ void Filter::filterSweep(int startFreq, int endFreq, float sweepTimeInMillis)
 
     for(float f = 0.0f; f < sweepTimeInMillis; f += 0.5f)
     {
-        if(cutoffFreq < endFreq) 
-            ++cutoffFreq;
-
-        else  
-            --cutoffFreq;
+        if(startFreq > endFreq)
+        {
+            if( cutoffFreq > endFreq ) 
+                --cutoffFreq;
+        }
+        else
+        {
+            if(cutoffFreq < endFreq) 
+                ++cutoffFreq;
+        }
+        std::cout<< "Cutoff sweep is at " << cutoffFreq <<std::endl;
     } 
 
     std::cout<< "Cutoff Freq is at " << cutoffFreq << std::endl;
@@ -456,6 +512,7 @@ struct Amplifier
     void divideSignalBy(float denominator);
     void addFilteredDrive(float driveAmount, Filter inputFilter);
     void changeWaveshaperMode(int nextMode);
+    void envelope(int aMils, int dMils, int sCutoff, int rMils);
 };
 
 Amplifier::Amplifier()
@@ -493,6 +550,30 @@ void Amplifier::changeWaveshaperMode(int nextMode)
     waveshaperType = nextMode;
 }
 
+void Amplifier::envelope(int aMils, int dMils, int sCutoff, int rMils)
+{
+    outputFilter.cutoffFreq = 0;
+    int aDiv = 20000/aMils;
+    std::cout<< "aDiv:" << aDiv <<std::endl;
+    int dDiv = (20000-sCutoff)/dMils;
+    std::cout<< "dDiv:" << dDiv <<std::endl;
+    int rDiv = sCutoff/rMils; //problem when rounding to 0...change type
+    std::cout<< "rDiv:" << rDiv <<std::endl;
+
+    for( int i = 0 ; i < aMils ; ++i)
+        outputFilter.cutoffFreq += aDiv;
+    std::cout<< "Amplifier envelope attack complete" << std::endl;
+    for( int i = 0 ; i < dMils ; ++i)
+        outputFilter.cutoffFreq -= dDiv;
+    std::cout<< "Amplifier envelope decay complete" <<std::endl;
+    for( int i = 0 ; i < rMils ; ++i)
+        outputFilter.cutoffFreq -= rDiv;
+    std::cout<< "Amplifier envelope release complete" << std::endl;
+    std::cout<< "Amplifier cutoff is at " << outputFilter.cutoffFreq << std::endl;
+}
+
+
+
 
 struct Delay
 {
@@ -501,20 +582,21 @@ struct Delay
     int type;
     int delayTimeMs;
     float feedbackLevel;
-    float toneLevel;
+    int panLevel;
     int wetBalance;
 
     void switchInput(char newInput);
-    void adjustFeedbackLevel(bool preWet);
+    void adjustPanAmount(bool preWet);
     float processInput();
+    void levelOfFeedback(int numOfRepeats);
 };
 
 Delay::Delay()
 {
     type = 0;
     delayTimeMs = 250;
-    feedbackLevel = 0.f;
-    toneLevel = 50.f;
+    feedbackLevel = 1.f;
+    panLevel = 63;
     wetBalance = 50;
 }
 
@@ -522,20 +604,33 @@ void Delay::switchInput(char newInput)
 {
     newInput = 'C';
 }
-void Delay::adjustFeedbackLevel(bool preWet)
+
+void Delay::adjustPanAmount(bool preWet)
 {
     if(preWet)
-        ++feedbackLevel;
+        ++panLevel;
     else
-        --feedbackLevel;
+        --panLevel;
 
-    std::cout << "Delay feedback level is: " << feedbackLevel << std::endl;
+    //std::cout << panLevel << std::endl;
 }
+
 float Delay::processInput()
 {
-    toneLevel += wetBalance;
-    return toneLevel;
+    panLevel += wetBalance;
+    return panLevel;
 }
+
+void Delay::levelOfFeedback(int numOfRepeats)
+{
+    float delayLevel = wetBalance;
+
+    for(int i = 0; i < numOfRepeats ; ++i)
+    {
+        std::cout<< "repeat at " << i << " is " << delayLevel <<std::endl;
+        delayLevel = delayLevel/feedbackLevel;
+    }
+} 
 
 
 
@@ -549,9 +644,10 @@ struct Preset
     char fileType;
     float fileSize;
 
-    void storePreset(int parameters);
+    void storePreset(std::string newPresetName);
     void loadPreset(std::string whichPreset);
     void renamePreset(std::string newName);
+    void addParameter(int numParamsToAdd, char paramType);
 };
 
 Preset::Preset()
@@ -563,10 +659,10 @@ Preset::Preset()
     fileSize = 3.4f;
 }
 
-void Preset::storePreset(int parameters)
+void Preset::storePreset(std::string newPresetName)
 {
-    fileSize += numOfParameters * parameters;
-    std::cout << presetName << " fileSize is: " << fileSize << std::endl;
+    presetName = newPresetName;
+    std::cout << presetName << " preset stored! File size is: " << fileSize << std::endl;
 }
 void Preset::loadPreset(std::string whichPreset)
 {
@@ -575,6 +671,19 @@ void Preset::loadPreset(std::string whichPreset)
 void Preset::renamePreset(std::string newName)
 {
     presetName = newName;
+}
+void Preset::addParameter(int numParamsToAdd, char paramType)
+{
+    int paramAsciiVal = paramType;
+    std::cout<< "Size of param is " << paramAsciiVal <<std::endl;
+    
+    for(int i = 0 ; i < numParamsToAdd ; ++i)
+    {
+        ++numOfParameters;
+        fileSize += paramAsciiVal;
+        std::cout<< "adding params"<<std::endl;
+    }
+    std::cout<< "done adding params, fileSize is " << fileSize << " for " << numOfParameters << " params" <<std::endl;
 }
 
 
@@ -611,6 +720,7 @@ struct Synthesizer
     void makeNote(int noteNum, int velocity, Oscillator thisOsc);
     void storePreset(std::string presetName);
     void modulateInput(InputBus externalInstrument, std::string parameterName);
+    void limitSignal(float threshhold);
 };
 
 Synthesizer::InputBus::InputBus()
@@ -647,11 +757,13 @@ void Synthesizer::modulateInput(InputBus externalInstrument, std::string paramet
     externalInstrument.outputRightSignalDb += 40.5f;
     parameterName = "sidechain input";
 }
+
 void Synthesizer::InputBus::actAsCarrierOscillator(int sourceChannel, std::string targetParam)
 {
     sourceChannel = 3;
     targetParam = "ringmod frequency";
 }
+
 float Synthesizer::InputBus::sumInputSignalToMono(float sourceChannelSignalL, 
 float sourceChannelSignalR, float attenuate)
 {
@@ -662,11 +774,36 @@ float sourceChannelSignalR, float attenuate)
 
     return sourceChannelSignalL * attenuate;
 }
+
 void Synthesizer::InputBus::readInputSignalStereo(int sourceChannelL, int sourceChannelR, float attenuate)
 {
     sourceChannelL *= attenuate;
     sourceChannelR *= attenuate;
 }
+
+void Synthesizer::limitSignal(float limitThreshhold)
+{
+    int millisecondsPassed = 0;
+    while( millisecondsPassed < 5)
+    {
+        ++millisecondsPassed;
+
+        for( float i = 0.1f ; i < 1.f ; i += .5f)
+        {
+            extIn.outputLeftSignalDb += extIn.outputLeftSignalDb * sinf(i);
+            extIn.outputRightSignalDb += extIn.outputRightSignalDb * sinf(i);
+
+            std::cout<< "Synthesizer output level is "<< extIn.outputLeftSignalDb + extIn.outputRightSignalDb <<std::endl;
+
+            if(extIn.outputLeftSignalDb + extIn.outputRightSignalDb < limitThreshhold)
+                std::cout<<"engage limiter"<<std::endl;
+            
+        }
+    }
+    
+}
+
+//void Synthesizer::
 
 /*
  MAKE SURE YOU ARE NOT ON THE MASTER BRANCH
@@ -686,15 +823,17 @@ void Synthesizer::InputBus::readInputSignalStereo(int sourceChannelL, int source
 int main()
 {
     Example::main();
-    Octopus greatPacificOctopus;
-    std::cout <<  greatPacificOctopus.catchAFish(7,22) << std::endl;
-    
+
     Octopus muddyDesertOctopus;
+    std::cout <<  "muddy Desert Octopus's size after hunting fish is " << muddyDesertOctopus.huntForFood(22) << std::endl;
+    
     muddyDesertOctopus.squirtInk(33.33f, 'E');
 
     Band theCrazyTrain;
-    theCrazyTrain.performanceStunt( 1000, true );
+    
     theCrazyTrain.postOnInsta(4, 'h', "std::string postText");
+    std::cout <<  "Budget after a successful tour: $" << theCrazyTrain.goOnTour( 13, 300, true ) << std::endl;
+    std::cout <<  "Albums sold after a successful tour: " << theCrazyTrain.albumsSold << std::endl;
 
     EspressoMachine truePour;
     truePour.pourCoffee(2);
@@ -709,24 +848,27 @@ int main()
 
 
     Oscillator bigSaw;
-    bigSaw.lfoAmount = bigSaw.outputLFOSignal('F', 25.f);
-    std::cout << "bigSaw LFO Amnt after: " << bigSaw.lfoAmount << std::endl;
+    bigSaw.semitone = 400;
+    bigSaw.outputSignal(bigSaw.semitone, 100);
 
     Filter highPassButter;
     highPassButter.changeType('H');
-    highPassButter.filterSweep(30, 2000, 2.2f);
+    highPassButter.filterSweep(30, 220, 2.2f);
 
     Amplifier fatStackMcGee;
     fatStackMcGee.addFilteredDrive(1.2f, highPassButter);
+    fatStackMcGee.envelope(20, 200, 400, 400);
     
 
     Delay warbledPingPong;
-    warbledPingPong.adjustFeedbackLevel(true);
+    warbledPingPong.feedbackLevel = 3.3f;
+    warbledPingPong.levelOfFeedback(9);
 
 
     Preset distorshunPhace;
     distorshunPhace.renamePreset("distorshunPhace");
-    distorshunPhace.storePreset(24);
+    distorshunPhace.addParameter(3,'H');
+    distorshunPhace.storePreset("Boopabip");
 
 
     Synthesizer octoScreamer;
@@ -734,6 +876,8 @@ int main()
     if(octoScreamer.extIn.isMono)
         std::cout << "octoScreamer Input Bus is Mono" << std::endl;
     std::cout << octoScreamer.extIn.sumInputSignalToMono(-6.7f,-12.3f,2.f)  << std::endl;
+
+    octoScreamer.limitSignal(-600.f);
 
 
     std::cout << "good to go!" << std::endl;
