@@ -163,7 +163,7 @@ float Octopus::huntForFood(int howHungry)
 {
     for(int i = 0 ; i < howHungry ; ++i )
     {
-        catchAFish(i, i) ? size += 2.2f : size -= 1.1f ;
+        size = (catchAFish(i, i)) ? size + 2.2f : size - 1.1f ;
         if(size < 0.f)
         {
             std::cout << "Octopus has died" << std::endl;
@@ -240,7 +240,7 @@ double Band::goOnTour(int numOfDestinations, double audience, bool isGrowing)
     budget = 5000.0;
     for(int i = 0 ; i < numOfDestinations ; ++i )
     {
-        (isGrowing) ? audience *= 2.22 : audience /= 2.22;
+        audience = (isGrowing) ? audience * 2.22 : audience / 2.22;
         albumsSold += audience/5;
         budget += audience;
         budget -= 1000.0;
